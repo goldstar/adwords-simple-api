@@ -1,8 +1,6 @@
-# Adwords::Simple::Api
+# AdwordsSimpleApi
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/adwords_simple_api`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Adwords' SOAP API is a complicated and powerful beast with a steep learning curve that allows you access to everything in Adwords. The official ruby client library is a thin layer on top of that API that isn't very rubyish. This gem isn't powerful nor complete, far from both, but is instead a handful of the most common tasks with a very simple ruby like interface.
 
 ## Installation
 
@@ -22,7 +20,30 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Congifiguration
+
+```ruby
+require 'adwords_simple_api'
+
+AdwordsSimpleApi.adwords = AdwordsApi::Api.new(options)
+```
+
+See the AdwordsApi documentation on the configuring a client and getting adwords api access.
+
+### Campaigns
+
+```ruby
+campaign = AdwordsSimpleApi::Campaign.find(campaign_id)
+
+campaign.enabled? # true
+campaign.pause! 
+campaign.enabled? # false
+campaign.paused? # true
+campaign.enable!
+campaign.enabled? # true
+
+campaign.attributes # {} of values
+```
 
 ## Development
 
