@@ -1,8 +1,5 @@
 require 'adwords_api'
-require "adwords_simple_api/base"
-require "adwords_simple_api/campaign"
-require "adwords_simple_api/expanded_text_ad"
-require "adwords_simple_api/version"
+Dir[__dir__ + '/**/*.rb'].each &method(:require)
 
 module AdwordsSimpleApi
   API_VERSION = :v201710
@@ -17,4 +14,5 @@ module AdwordsSimpleApi
     end
     @adwords || AdwordsApi::Api.new
   end
+  
 end

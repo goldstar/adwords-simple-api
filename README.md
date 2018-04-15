@@ -56,11 +56,19 @@ campaign.expanded_text_ads # array of ExpandedTextAds
 ### Expanded Text Ads
 
 ```ruby
-
 ads = AdwordsSimpleApi::ExpandedTextAd.for_campaign(campaign_id)  # array of ExpandedTextAds
 ads.first.attributes # hash of values
 ads.first.final_urls # array of the final_urls
 
+```
+
+### Reports
+
+```ruby
+AdwordsSimpleApi::Reports::AdPerformanceReport.new.to_a
+AdwordsSimpleApi::Reports::CampaignPerformanceReport.new.to_a
+AdwordsSimpleApi::Reports::PlaceholderFeedItemReport.new.to_a
+AdwordsSimpleApi::Reports::YesterdayAdPerformanceReport.new.to_a
 ```
 
 ## Development
