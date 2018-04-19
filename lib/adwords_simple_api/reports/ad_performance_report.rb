@@ -2,7 +2,7 @@ module AdwordsSimpleApi
   module Reports
     class AdPerformanceReport < Base
 
-      report_defination(
+      report_definition(
         :selector => {
           :fields => [
             'CampaignId','CampaignName','CampaignStatus',

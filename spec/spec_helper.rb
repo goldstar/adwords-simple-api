@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "adwords_simple_api"
+require 'pry'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

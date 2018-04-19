@@ -1,20 +1,21 @@
 require 'csv'
 require 'json'
+require 'date'
 
 module AdwordsSimpleApi
   module Reports
     class Base
 
-      def self.report_defination(value)
-        @report_defination = value
+      def self.report_definition(value)
+        @report_definition = value
       end
 
-      def report_defination=(value)
-        @report_defination = value
+      def report_definition=(value)
+        @report_definition = value
       end
 
-      def report_defination
-        @report_defination || self.class.instance_variable_get("@report_defination")
+      def report_definition
+        @report_definition || self.class.instance_variable_get("@report_definition")
       end
 
       def self.json_columns(*columns)
@@ -41,6 +42,14 @@ module AdwordsSimpleApi
         self.class.instance_variable_get("@currency_columns") || []
       end
 
+      def self.date_columns(*columns)
+        @date_columns = columns
+      end
+
+      def date_columns
+        self.class.instance_variable_get("@date_columns") || []
+      end
+
       def self.include_zero_impressions(value)
         @include_zero_impressions = value
       end
@@ -52,24 +61,24 @@ module AdwordsSimpleApi
       end
 
       def self.adwords
-        @adwords ||= AdwordsSimpleApi.adwords
+        AdwordsSimpleApi.adwords
       end
 
-      def self.download_report(defination, include_zero_impressions)
+      def self.download_report(definition, include_zero_impressions)
         adwords.skip_report_header = true
         adwords.skip_column_header = false
         adwords.skip_report_summary = true
         adwords.include_zero_impressions = include_zero_impressions
         report_utils = adwords.report_utils(AdwordsSimpleApi::API_VERSION)
-        report_utils.download_report(defination, nil)
+        report_utils.download_report(definition, nil)
       end
 
       def csv
-        self.class.csv(report_defination, include_zero_impressions)
+        self.class.csv(report_definition, include_zero_impressions)
       end
 
-      def self.csv(defination, include_zero_impressions)
-        csv_string = download_report(defination, include_zero_impressions)
+      def self.csv(definition, include_zero_impressions)
+        csv_string = download_report(definition, include_zero_impressions)
         CSV.parse(csv_string, {:headers => true, :header_converters => :symbol})
       end
 
@@ -88,12 +97,16 @@ module AdwordsSimpleApi
 
           # Transform integer columns
           integer_columns.each do |column|
-            row[column] = row[column].to_i
+            row[column] = row[column].to_i if row[column]
           end
 
           # Transform currency columns
           currency_columns.each do |column|
             row[column] = row[column].to_f / 1000000.0
+          end
+
+          date_columns.each do |column|
+            row[column] = Date.parse(row[column]) if row[column]
           end
 
         end
