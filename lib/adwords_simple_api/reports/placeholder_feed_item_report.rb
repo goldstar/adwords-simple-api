@@ -9,7 +9,7 @@ module AdwordsSimpleApi
       STRUCTURED_SNIPPET_TYPE = "24"
       PROMOTION_TYPE = "38"
 
-      report_defination(
+      report_definition(
         :selector => {
           :fields => [
             'FeedId', 'FeedItemId', 'Status','AttributeValues',

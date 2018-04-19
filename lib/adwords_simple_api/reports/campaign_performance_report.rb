@@ -2,10 +2,10 @@ module AdwordsSimpleApi
   module Reports
     class CampaignPerformanceReport < Base
 
-      report_defination(
+      report_definition(
         :selector => {
           :fields => [
-            'CampaignId','CampaignName','CampaignStatus',
+            'CampaignId','CampaignName','CampaignStatus','CampaignGroupId',
             'TrackingUrlTemplate', 'UrlCustomParameters','StartDate',
             'Impressions', 'Clicks', 'Conversions', 'Cost', 'Labels'],
           :predicates => [
@@ -23,7 +23,9 @@ module AdwordsSimpleApi
     )
 
     json_columns(:labels, :custom_parameter)
-
+    integer_columns(:impressions, :clicks, :conversions, :campaign_id, :campaign_group_id)
+    currency_columns(:cost)
+    date_columns(:start_date)
     end
   end
 end

@@ -2,7 +2,7 @@ module AdwordsSimpleApi
   module Reports
     class YesterdayAdPerformanceReport < Base
 
-      report_defination(
+      report_definition(
         selector: {
           fields: [                               # RETURNS AS:
             'Id', 'Date',                         #   :ad_id, # :day,
@@ -24,10 +24,10 @@ module AdwordsSimpleApi
       json_columns(:final_url)
 
       def self.historical(date_range)
-        historical_report = @report_defination.merge({
+        historical_report = @report_definition.merge({
           report_name: 'Historical AD_PERFORMANCE_REPORT',
           date_range_type: 'CUSTOM_DATE',
-          selector: @report_defination[:selector].merge({
+          selector: @report_definition[:selector].merge({
             date_range: {
               min: date_range.min.to_s(:number),
               max: date_range.max.to_s(:number)
@@ -35,7 +35,7 @@ module AdwordsSimpleApi
           })
          })
         report = self.new
-        report.report_defination = historical_report
+        report.report_definition = historical_report
         report
       end
 
