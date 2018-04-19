@@ -40,10 +40,11 @@ See the AdwordsApi documentation on the configuring a client and getting adwords
 ### Campaigns
 
 ```ruby
+campaigns = AdwordsSimpleApi::Campaign.all
 campaign = AdwordsSimpleApi::Campaign.find(campaign_id)
 
 campaign.enabled? # true
-campaign.pause! 
+campaign.pause!
 campaign.enabled? # false
 campaign.paused? # true
 campaign.enable!
@@ -51,6 +52,18 @@ campaign.enabled? # true
 
 campaign.attributes # hash of values
 campaign.expanded_text_ads # array of ExpandedTextAds
+```
+
+### Campaign Groups
+
+```ruby
+groups = AdwordsSimpleApi::CampaignGroup.all
+group = AdwordsSimpleApi::CampaignGroup.find(campaign_id)
+
+group.enabled? # true
+
+group.attributes # hash of values
+group.campaigns # array of Campaigns
 ```
 
 ### Expanded Text Ads
@@ -65,7 +78,7 @@ ads.first.final_urls # array of the final_urls
 ### Reports
 
 ```ruby
-AdwordsSimpleApi::Reports::AdPerformanceReport.new.to_a
+AdwordsSimpleApi::Reports::AdPerformanceReport.new.to_a # Array of Hashes
 AdwordsSimpleApi::Reports::CampaignPerformanceReport.new.to_a
 AdwordsSimpleApi::Reports::PlaceholderFeedItemReport.new.to_a
 AdwordsSimpleApi::Reports::YesterdayAdPerformanceReport.new.to_a
