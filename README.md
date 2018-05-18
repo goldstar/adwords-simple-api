@@ -81,7 +81,9 @@ ads.first.final_urls # array of the final_urls
 AdwordsSimpleApi::Reports::AdPerformanceReport.new.to_a # Array of Hashes
 AdwordsSimpleApi::Reports::CampaignPerformanceReport.new.to_a
 AdwordsSimpleApi::Reports::PlaceholderFeedItemReport.new.to_a
-AdwordsSimpleApi::Reports::YesterdayAdPerformanceReport.new.to_a
+AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new.to_a                              # Report for yesterday
+AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.today).to_a                  # Report for today
+AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.yesterday..Date.today).to_a  # Report segmented by day for range
 ```
 
 ## Development

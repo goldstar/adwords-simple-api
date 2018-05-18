@@ -26,12 +26,28 @@ module AdwordsSimpleApi
         self.class.instance_variable_get("@json_columns") || []
       end
 
+      def self.string_columns(*columns)
+        @string_columns = columns
+      end
+
+      def string_columns
+        self.class.instance_variable_get("@string_columns") || []
+      end
+
       def self.integer_columns(*columns)
         @integer_columns = columns
       end
 
       def integer_columns
         self.class.instance_variable_get("@integer_columns") || []
+      end
+
+      def self.float_columns(*columns)
+        @float_columns = columns
+      end
+
+      def float_columns
+        self.class.instance_variable_get("@float_columns") || []
       end
 
       def self.currency_columns(*columns)
@@ -89,7 +105,7 @@ module AdwordsSimpleApi
           # Transform json columns
           json_columns.each do |column|
             row[column] = begin
-              JSON.parse(row[column])
+              JSON.parse(row[column].to_s)
             rescue JSON::ParserError
               nil
             end # begin
@@ -98,6 +114,11 @@ module AdwordsSimpleApi
           # Transform integer columns
           integer_columns.each do |column|
             row[column] = row[column].to_i if row[column]
+          end
+
+          # Transform float columns
+          float_columns.each do |column|
+            row[column] = row[column].to_f if row[column]
           end
 
           # Transform currency columns
@@ -109,6 +130,10 @@ module AdwordsSimpleApi
             row[column] = Date.parse(row[column]) if row[column]
           end
 
+          string_columns.each do |column|
+            row[column] = nil if row[column].to_s == ' --'
+            row[column] = row[column].to_s if row[column]
+          end
         end
         return a
       end

@@ -6,15 +6,6 @@ module AdwordsSimpleApi
       @id = hash[:id] or raise "Must initialize with at least an id"
     end
 
-    def set(hash)
-      operation = { :operator => 'SET', :operand => hash.merge(id: id) }
-      response = service.mutate([operation])
-      if response && response[:value]
-        @attributes = response[:value].first
-      else
-        raise 'No objects were updated.'
-      end
-    end
 
     def self.fields(*field_names)
       if field_names.any?
@@ -52,6 +43,26 @@ module AdwordsSimpleApi
     def self.find(id)
       get({ field: 'Id', operator: 'EQUALS',  values: [id] }).first or raise "No object found"
     end
+
+    def self.set(id, hash)
+      operation = { :operator => 'SET', :operand => hash.merge(id: id) }
+      response = service.mutate([operation])
+      if response && response[:value]
+        response[:value]
+      else
+        []
+      end
+    end
+
+    def set(hash)
+      new_values = self.class.set(id, hash)
+      if new_values.first
+        @attributes = new_values
+      else
+        raise 'No objects were updated.'
+      end
+    end
+
 
     def self.adwords
       AdwordsSimpleApi.adwords
