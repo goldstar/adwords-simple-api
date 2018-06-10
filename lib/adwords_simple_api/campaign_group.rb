@@ -3,9 +3,7 @@ module AdwordsSimpleApi
     attributes :id, :name, :status
     service :campaign_group_service
 
-    def enabled?
-      attributes[:status] == 'ENABLED'
-    end
+    has_status :enabled, :removed
 
     def campaigns
       @campaigns ||= Campaign.get({ field: id_field_str, operator: 'EQUALS',  values: [id] })

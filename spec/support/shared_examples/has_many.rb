@@ -1,6 +1,6 @@
 module AdwordsSimpleApi
   RSpec.shared_examples "it has many" do |klass, plural, singular|
-    describe "#campaigns" do
+    describe "##{plural}" do
       let(:attributes){ attributes_for(singular) }
       let(:owned_instance){ klass.new(attributes) }
       let(:described_class_instance) { described_class.new(described_class_attributes) }

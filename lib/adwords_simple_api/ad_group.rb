@@ -5,23 +5,8 @@ module AdwordsSimpleApi
      :settings, :base_campaign_id, :base_ad_group_id, :ad_group_type
     has_many(labels: AdwordsSimpleApi::Label)
 
-    # default_predicate { field: 'Status', operator: 'IN',   values: ['ENABLED','PAUSED'] }
-
-    def paused?
-      attributes[:status] == 'PAUSED'
-    end
-
-    def enabled?
-      attributes[:status] == 'ENABLED'
-    end
-
-    def pause!
-      set(status: 'PAUSED')
-    end
-
-    def enable!
-      set(status: 'ENABLED')
-    end
+    # default_predicates [{field; 'Status', operator: 'EQUALS', values: ['ENABLED','PAUSED']}]
+    has_status :enabled, :paused, :removed
 
     def expanded_text_ads
       @expanded_text_ads ||= ExpandedTextAd.for_ad_group(id)

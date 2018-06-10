@@ -19,5 +19,11 @@ class AdwordsMock
       warn "called get with payload:\n#{payload.inspect}"
       return {}
     end
+
+    def mutate(payload)
+      warn "called mutate with payload:\n#{payload.inspect}"
+      return {}
+    end
+
   end
 end
