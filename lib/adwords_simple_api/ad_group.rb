@@ -5,6 +5,8 @@ module AdwordsSimpleApi
      :settings, :base_campaign_id, :base_ad_group_id, :ad_group_type
     has_many(labels: AdwordsSimpleApi::Label)
 
+    # default_predicate { field: 'Status', operator: 'IN',   values: ['ENABLED','PAUSED'] }
+
     def paused?
       attributes[:status] == 'PAUSED'
     end
@@ -27,22 +29,6 @@ module AdwordsSimpleApi
 
     def campaign
       @campaign ||= Campaign.find(attributes[:campaign_id])
-    end
-
-    def self.for_campaign(campaign_id)
-      response = service.get(
-        fields: fields,
-        predicates: [
-          { field: 'CampaignId',     operator: 'IN',   values: [campaign_id] },
-          { field: 'AdGroupStatus', operator: 'IN',   values: ['ENABLED','PAUSED'] },
-          { field: 'Status',        operator: 'IN',   values: ['ENABLED','PAUSED'] }
-        ]
-      )
-      if response && response[:entries]
-        return Array(response[:entries]).map{|hash| self.new(hash) }
-      else
-        return []
-      end
     end
 
   end

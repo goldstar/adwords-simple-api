@@ -133,8 +133,18 @@ module AdwordsSimpleApi
       obj.class == self.class && attributes[:id] && attributes[:id] == obj.id
     end
 
-    def self.class_id
-      "#{self.name.split(/::/).last.downcase}_id".to_sym
+    def self.id_field_sym
+      AdwordsSimpleApi.underscore(id_field_str).to_sym
+    end
+    def id_field_sym
+      self.class.id_field_sym
+    end
+
+    def self.id_field_str
+      "#{self.name.split(/::/).last}Id"
+    end
+    def id_field_str
+      self.class.id_field_str
     end
 
     def add_label(label)
@@ -155,7 +165,7 @@ module AdwordsSimpleApi
       begin
         service.mutate_label([{
           :operator => operator.to_s.upcase,
-          :operand => {:label_id=> label_id, class_id => id}
+          :operand => {:label_id=> label_id, id_field_sym => id}
         }])
         true
       rescue AdwordsApi::Errors::ApiException => e

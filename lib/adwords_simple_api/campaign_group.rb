@@ -8,7 +8,7 @@ module AdwordsSimpleApi
     end
 
     def campaigns
-      @campaigns ||= Campaign.get({ field: 'CampaignGroupId', operator: 'EQUALS',  values: [id] })
+      @campaigns ||= Campaign.get({ field: id_field_str, operator: 'EQUALS',  values: [id] })
     end
 
   end

@@ -1,7 +1,7 @@
 require "bundler/setup"
 require "adwords_simple_api"
 require 'pry'
-require "support/adwords_mock"
+Dir["./spec/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -17,5 +17,4 @@ RSpec.configure do |config|
   config.before(:each) do
     AdwordsSimpleApi.adwords = AdwordsMock.new()
   end
-
 end

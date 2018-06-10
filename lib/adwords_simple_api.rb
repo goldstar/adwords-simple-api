@@ -24,6 +24,14 @@ module AdwordsSimpleApi
     stringy.to_s.split(/[_ ]+/).map(&:capitalize).join
   end
 
+  def self.underscore(stringy)
+    stringy.to_s.gsub(/::/, '/').
+    gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+    gsub(/([a-z\d])([A-Z])/,'\1_\2').
+    tr("-", "_").
+    downcase
+  end
+
 end
 
 require 'adwords_api'

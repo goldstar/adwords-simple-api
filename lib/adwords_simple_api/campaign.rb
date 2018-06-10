@@ -27,7 +27,7 @@ module AdwordsSimpleApi
     end
 
     def ad_groups
-      @ad_groups ||= AdGroup.for_campaign(id)
+      @ad_groups ||= AdGroup.get({ field: id_field_str, operator: 'EQUALS',  values: [id] })
     end
 
     def expanded_text_ads
