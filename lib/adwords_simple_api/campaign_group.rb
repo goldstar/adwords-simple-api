@@ -1,8 +1,7 @@
 module AdwordsSimpleApi
   class CampaignGroup < Base
-    attr_reader :attributes, :id
-    fields 'Id', 'Name', 'Status'
-    service :CampaignGroupService
+    attributes :id, :name, :status
+    service :campaign_group_service
 
     def enabled?
       attributes[:status] == 'ENABLED'

@@ -37,11 +37,37 @@ AdwordsSimpleApi.adwords = AdwordsApi::Api.new(options)
 
 See the AdwordsApi documentation on the configuring a client and getting adwords api access.
 
+### AdGroups
+
+```ruby
+ad_groups = AdwordsSimpleApi::AdGroup.all
+ad_groups = AdwordsSimpleApi::AdGroup.find(campaign_id)
+ad_groups = AdwordsSimpleApi::AdGroup.find_by(name: ad_group_name)
+
+ad_group.enabled? # true
+ad_group.pause!
+ad_group.paused? # true
+ad_group.enable!
+ad_group.enabled? # true
+ad_group.status # 'ENABLED'
+ad_group.name # 'some ad group'
+
+AdwordsSimpleApi::AdGroup.fields # list of available attributes
+
+ad_group.attributes # hash of values
+ad_group.labels # array of Label
+ad_group.add_label(label_object) # true or false
+ad_group.remove_label(label_object) # true or false
+ad_group.campaign # Campaign object
+ad_group.expanded_text_ads # Array of ExpandedTextAd
+```
+
 ### Campaigns
 
 ```ruby
 campaigns = AdwordsSimpleApi::Campaign.all
 campaign = AdwordsSimpleApi::Campaign.find(campaign_id)
+campaign = AdwordsSimpleApi::Campaign.find_by(name: campaign_name)
 
 campaign.enabled? # true
 campaign.pause!
@@ -49,9 +75,17 @@ campaign.enabled? # false
 campaign.paused? # true
 campaign.enable!
 campaign.enabled? # true
+campaign.status # 'ENABLED'
+campaign.name # 'some campaign'
+
+AdwordsSimpleApi::Campaign.fields # list of available attributes
 
 campaign.attributes # hash of values
-campaign.expanded_text_ads # array of ExpandedTextAds
+campaign.labels # array of Label
+campaign.add_label(label_object) # true or false
+campaign.remove_label(label_object) # true or false
+campaign.ad_groups # array of AdGroup
+campaign.expanded_text_ads # array of ExpandedTextAd
 ```
 
 ### Campaign Groups
@@ -60,10 +94,13 @@ campaign.expanded_text_ads # array of ExpandedTextAds
 groups = AdwordsSimpleApi::CampaignGroup.all
 group = AdwordsSimpleApi::CampaignGroup.find(campaign_id)
 
+group.id # 1
+group.name # 'group name'
+group.status # 'ENABLED'
 group.enabled? # true
 
-group.attributes # hash of values
-group.campaigns # array of Campaigns
+group.attributes # Hash of values
+group.campaigns # Array of Campaign
 ```
 
 ### Expanded Text Ads
@@ -72,7 +109,19 @@ group.campaigns # array of Campaigns
 ads = AdwordsSimpleApi::ExpandedTextAd.for_campaign(campaign_id)  # array of ExpandedTextAds
 ads.first.attributes # hash of values
 ads.first.final_urls # array of the final_urls
+```
 
+### Labels
+
+```ruby
+label = AdwordsSimpleApi::Label.find(label_id)
+label = AdwordsSimpleApi::Label.find_by(name: 'label name')
+label.id # 1
+label.name # 'label name'
+label.status # 'ENABLED'
+
+label.campaigns # Array of Campaign
+label.ad_groups # Array of AdGroup
 ```
 
 ### Reports

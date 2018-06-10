@@ -1,32 +1,72 @@
 module AdwordsSimpleApi
   class Base
 
-    def initialize(hash)
+    def initialize(hash = {})
       @attributes = hash
-      @id = hash[:id] or raise "Must initialize with at least an id"
+      @associations = {}
     end
 
-
-    def self.fields(*field_names)
-      if field_names.any?
-        @fields = field_names.map(&:to_s)
-      else
-        @fields
+    def self.attributes(*attributes_names)
+      @fields ||= []
+      attr_reader :attributes
+      attributes_names.each do |name|
+        @fields << name
+        define_method(name) do
+          attributes[name]
+        end
       end
+    end
+
+    def self.attribute_field_names(hash = nil)
+      if hash
+        @attribute_field_names = hash
+      else
+        @attribute_field_names
+      end
+    end
+
+    def self.field_names
+      @fields.map{|f| field_name(f) }
+    end
+
+    def self.field_name(f)
+      @attribute_field_names ||= {}
+      f = @attribute_field_names[f.to_sym] || f
+      AdwordsSimpleApi.camelcase(f)
+    end
+
+    def self.has_many(has_many_associations)
+      @associations ||= {}
+      @fields ||= []
+      @associations.merge!(has_many_associations)
+      has_many_associations.keys.each do |name|
+        @fields << name
+        define_method(name) do
+          has_many(name)
+        end
+      end
+    end
+
+    def self.fields
+      @fields
+    end
+
+    def self.associations
+      @associations
     end
 
     def self.service(srvc = nil)
       if srvc
-        @service = srvc.to_sym
+        @service = AdwordsSimpleApi.camelcase(srvc).to_sym
       else
         @adwords_service ||= adwords.service(@service, AdwordsSimpleApi::API_VERSION)
       end
     end
 
     def self.get(predicates = nil)
-      selector = { fields: fields }
+      selector = { fields: field_names }
       unless predicates.nil?
-        selector[:predicates] = wrap(predicates)
+        selector[:predicates] = AdwordsSimpleApi.wrap(predicates)
       end
       response = service.get(selector)
       if response && response[:entries]
@@ -41,7 +81,17 @@ module AdwordsSimpleApi
     end
 
     def self.find(id)
-      get({ field: 'Id', operator: 'EQUALS',  values: [id] }).first or raise "No object found"
+      find_by(id: id)
+    end
+
+    def self.find_by(hash)
+      predicates = hash.map{ |k,v|
+        {
+          field: field_name(k),
+          operator: 'EQUALS',
+          values: AdwordsSimpleApi.wrap(v) }
+      }
+      get(predicates).first
     end
 
     def self.set(id, hash)
@@ -57,12 +107,19 @@ module AdwordsSimpleApi
     def set(hash)
       new_values = self.class.set(id, hash)
       if new_values.first
-        @attributes = new_values
+        @attributes = new_values.first
       else
         raise 'No objects were updated.'
       end
     end
 
+    def has_many(name)
+      name = name.to_sym
+      @associations[name] ||= begin
+        klass = self.class.associations[name]
+        AdwordsSimpleApi.wrap(attributes[name]).map{ |h| klass.new(h) }
+      end
+    end
 
     def self.adwords
       AdwordsSimpleApi.adwords
@@ -72,24 +129,38 @@ module AdwordsSimpleApi
       self.class.adwords
     end
 
-    def self.ad_service
-      @ad_service ||= adwords.service(:AdGroupAdService, AdwordsSimpleApi::API_VERSION)
+    def ==(obj)
+      obj.class == self.class && attributes[:id] && attributes[:id] == obj.id
     end
 
-    def ad_service
-      self.class.ad_service
+    def self.class_id
+      "#{self.name.split(/::/).last.downcase}_id".to_sym
     end
 
-    # Need to put this somewhere. It's based on Rails Array.wrap
-    def self.wrap(object)
-      if object.nil?
-        []
-      elsif object.respond_to?(:to_ary)
-        object.to_ary || [object]
-      else
-        [object]
+    def add_label(label)
+      self.class.change_label(:add, id, label.id) or return false
+      has_many(:labels) # to initialize association
+      @associations[:labels].push(label)
+      true
+    end
+
+    def remove_label(label)
+      self.class.change_label(:remove, id, label.id) or return false
+      has_many(:labels) # to initialize association
+      @associations[:labels].delete_if{ |l| l == label }
+      true
+    end
+
+    def self.change_label(operator, id, label_id)
+      begin
+        service.mutate_label([{
+          :operator => operator.to_s.upcase,
+          :operand => {:label_id=> label_id, class_id => id}
+        }])
+        true
+      rescue AdwordsApi::Errors::ApiException => e
+        false
       end
     end
-
   end
 end
