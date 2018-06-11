@@ -1,10 +1,12 @@
+require 'adwords_simple_api/concerns/has_labels'
+
 module AdwordsSimpleApi
   class Campaign < Base
-    service :campaign_service
+    include HasLabels
+
     attributes :id, :campaign_group_id, :name, :status, :serving_status, :start_date,
      :end_date, :ad_serving_optimization_status, :settings, :advertising_channel_type,
      :campaign_trial_type, :base_campaign_id, :url_custom_parameters
-    has_many(labels: AdwordsSimpleApi::Label)
     has_status :paused, :enabled, :removed
 
     def final_urls

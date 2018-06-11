@@ -9,7 +9,7 @@ module AdwordsSimpleApi
 
       let(:results){ described_class.all }
 
-      it "should return an array of CampaignGroups" do
+      it "should return an array of #{described_class.name}" do
         expect(results).to be_an(Array)
         expect(results.first).to be_a(described_class)
       end
@@ -19,13 +19,13 @@ module AdwordsSimpleApi
       before do
         allow(described_class.service).to receive(:get).with(
           hash_including(
-            predicates: [{field: 'Name', operator: 'EQUALS', values: [described_class_attributes[:name]]}]
+            predicates: [{field: described_class.field_name(:name), operator: 'EQUALS', values: [described_class_attributes[:name]]}]
           )
         ).and_return(entries: [described_class_attributes])
       end
 
       let(:subject) { described_class.find_by(name: described_class_attributes[:name]) }
-      it "should return a CampaignGroup object" do
+      it "should return a #{described_class.name} object" do
         expect(subject).to be_a(described_class)
       end
 
