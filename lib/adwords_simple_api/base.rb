@@ -1,5 +1,12 @@
+require 'adwords_simple_api/concerns/has_many'
+require 'adwords_simple_api/concerns/has_status'
+require 'adwords_simple_api/concerns/has_finders'
+
 module AdwordsSimpleApi
   class Base
+    include HasMany
+    include HasStatus
+    include HasFinders
 
     def initialize(hash = {})
       @attributes = hash
@@ -35,34 +42,6 @@ module AdwordsSimpleApi
       AdwordsSimpleApi.camelcase(f)
     end
 
-    def self.has_many(has_many_associations)
-      @associations ||= {}
-      @fields ||= []
-      @associations.merge!(has_many_associations)
-      has_many_associations.keys.each do |name|
-        @fields << name
-        define_method(name) do
-          has_many(name)
-        end
-      end
-    end
-
-    def self.has_status(*status_labels)
-      status_labels.each do |status|
-        has_status = "#{status}?"
-        change_status = status.to_s.gsub(/d$/,"!")
-        status = status.to_s.upcase
-
-        define_method(has_status) do
-          attributes[:status] == status
-        end
-
-        define_method(change_status) do
-          set(status: status)
-        end
-      end
-    end
-
     def self.fields
       @fields
     end
@@ -77,37 +56,6 @@ module AdwordsSimpleApi
       else
         @adwords_service ||= adwords.service(@service, AdwordsSimpleApi::API_VERSION)
       end
-    end
-
-    def self.get(predicates = nil)
-      selector = { fields: field_names }
-      unless predicates.nil?
-        selector[:predicates] = AdwordsSimpleApi.wrap(predicates)
-      end
-      response = service.get(selector)
-      if response && response[:entries]
-        Array(response[:entries]).map{ |a| self.new(a) }
-      else
-        []
-      end
-    end
-
-    def self.all
-      get()
-    end
-
-    def self.find(id)
-      find_by(id: id)
-    end
-
-    def self.find_by(hash)
-      predicates = hash.map{ |k,v|
-        {
-          field: field_name(k),
-          operator: 'EQUALS',
-          values: AdwordsSimpleApi.wrap(v) }
-      }
-      get(predicates).first
     end
 
     def self.set(id, hash)
@@ -126,14 +74,6 @@ module AdwordsSimpleApi
         @attributes = new_values.first
       else
         raise 'No objects were updated.'
-      end
-    end
-
-    def has_many(name)
-      name = name.to_sym
-      @associations[name] ||= begin
-        klass = self.class.associations[name]
-        AdwordsSimpleApi.wrap(attributes[name]).map{ |h| klass.new(h) }
       end
     end
 
