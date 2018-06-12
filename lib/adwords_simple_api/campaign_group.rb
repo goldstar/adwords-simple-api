@@ -1,15 +1,10 @@
 module AdwordsSimpleApi
   class CampaignGroup < Base
-    attr_reader :attributes, :id
-    fields 'Id', 'Name', 'Status'
-    service :CampaignGroupService
-
-    def enabled?
-      attributes[:status] == 'ENABLED'
-    end
+    attributes :id, :name, :status
+    has_status :enabled, :removed
 
     def campaigns
-      @campaigns ||= Campaign.get({ field: 'CampaignGroupId', operator: 'EQUALS',  values: [id] })
+      @campaigns ||= Campaign.get({ field: id_field_str, operator: 'EQUALS',  values: [id] })
     end
 
   end

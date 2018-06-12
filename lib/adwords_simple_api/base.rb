@@ -1,48 +1,57 @@
+require 'adwords_simple_api/concerns/has_service'
+require 'adwords_simple_api/concerns/has_many'
+require 'adwords_simple_api/concerns/has_status'
+require 'adwords_simple_api/concerns/has_finders'
+
 module AdwordsSimpleApi
   class Base
+    include HasService
+    include HasMany
+    include HasStatus
+    include HasFinders
 
-    def initialize(hash)
+    def initialize(hash = {})
       @attributes = hash
-      @id = hash[:id] or raise "Must initialize with at least an id"
+      @associations = {}
     end
 
+    def self.attributes(*attributes_names)
+      @fields ||= []
+      attr_reader :attributes
+      attributes_names.each do |name|
+        @fields << name
+        define_method(name) do
+          attributes[name]
+        end
+      end
+    end
 
-    def self.fields(*field_names)
-      if field_names.any?
-        @fields = field_names.map(&:to_s)
+    def self.attribute_field_names(hash = nil)
+      if hash
+        @attribute_field_names = hash
       else
-        @fields
+        @attribute_field_names
       end
     end
 
-    def self.service(srvc = nil)
-      if srvc
-        @service = srvc.to_sym
-      else
-        @adwords_service ||= adwords.service(@service, AdwordsSimpleApi::API_VERSION)
-      end
+    def self.field_names
+      @fields.map{|f| field_name(f) }
     end
 
-    def self.get(predicates = nil)
-      selector = { fields: fields }
-      unless predicates.nil?
-        selector[:predicates] = wrap(predicates)
-      end
-      response = service.get(selector)
-      if response && response[:entries]
-        Array(response[:entries]).map{ |a| self.new(a) }
-      else
-        []
-      end
+    def self.field_name(f)
+      @attribute_field_names ||= {}
+      f = @attribute_field_names[f.to_sym] || f
+      AdwordsSimpleApi.camelcase(f)
     end
 
-    def self.all
-      get()
+    def self.fields
+      @fields
     end
 
-    def self.find(id)
-      get({ field: 'Id', operator: 'EQUALS',  values: [id] }).first or raise "No object found"
+    def self.associations
+      @associations
     end
+
 
     def self.set(id, hash)
       operation = { :operator => 'SET', :operand => hash.merge(id: id) }
@@ -57,38 +66,34 @@ module AdwordsSimpleApi
     def set(hash)
       new_values = self.class.set(id, hash)
       if new_values.first
-        @attributes = new_values
+        @attributes = new_values.first
       else
         raise 'No objects were updated.'
       end
     end
 
-
-    def self.adwords
-      AdwordsSimpleApi.adwords
+    def ==(obj)
+      obj.class == self.class && attributes[:id] && attributes[:id] == obj.id
     end
 
-    def adwords
-      self.class.adwords
+    def self.id_field_sym
+      AdwordsSimpleApi.underscore(id_field_str).to_sym
     end
 
-    def self.ad_service
-      @ad_service ||= adwords.service(:AdGroupAdService, AdwordsSimpleApi::API_VERSION)
+    def id_field_sym
+      self.class.id_field_sym
     end
 
-    def ad_service
-      self.class.ad_service
+    def self.class_str
+      self.name.split(/::/).last
     end
 
-    # Need to put this somewhere. It's based on Rails Array.wrap
-    def self.wrap(object)
-      if object.nil?
-        []
-      elsif object.respond_to?(:to_ary)
-        object.to_ary || [object]
-      else
-        [object]
-      end
+    def self.id_field_str
+      "#{self.class_str}Id"
+    end
+
+    def id_field_str
+      self.class.id_field_str
     end
 
   end
