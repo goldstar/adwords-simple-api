@@ -6,7 +6,7 @@ module AdwordsSimpleApi
         if srvc
           @service_name = AdwordsSimpleApi.camelcase(srvc).to_sym
         else
-          @service_name ||= "#{self.name}Service".to_sym
+          @service_name ||= "#{self.class_str}Service".to_sym
           @service ||= adwords.service(@service_name, AdwordsSimpleApi::API_VERSION)
         end
       end

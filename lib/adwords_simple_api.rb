@@ -1,5 +1,5 @@
 module AdwordsSimpleApi
-  API_VERSION = :v201806
+  API_VERSION = :v201802
 
   def self.adwords=(adwords)
     @adwords = adwords

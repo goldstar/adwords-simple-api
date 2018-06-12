@@ -84,8 +84,12 @@ module AdwordsSimpleApi
       self.class.id_field_sym
     end
 
+    def self.class_str
+      self.name.split(/::/).last
+    end
+
     def self.id_field_str
-      "#{self.name.split(/::/).last}Id"
+      "#{self.class_str}Id"
     end
 
     def id_field_str

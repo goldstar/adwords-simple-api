@@ -15,7 +15,7 @@ module AdwordsSimpleApi
 
     def self.for_campaign(campaign_id)
       response = service.get(
-        fields: fields,
+        fields: field_names,
         predicates: [
           { field: 'AdType',        operator: 'IN',   values: ['EXPANDED_TEXT_AD'] },
           { field: 'CampaignId',    operator: 'IN',   values: [campaign_id] },
