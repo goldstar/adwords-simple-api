@@ -5,10 +5,8 @@ module AdwordsSimpleApi
 
       def has_many(has_many_associations)
         @associations ||= {}
-        @fields ||= []
         @associations.merge!(has_many_associations)
         has_many_associations.keys.each do |name|
-          @fields << name
           define_method(name) do
             has_many(name)
           end
@@ -32,6 +30,6 @@ module AdwordsSimpleApi
     def self.included(base)
       base.extend(ClassMethods)
     end
-    
+
   end
 end

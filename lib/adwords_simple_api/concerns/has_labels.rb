@@ -32,6 +32,7 @@ module AdwordsSimpleApi
     def self.included(base)
       base.extend(ClassMethods)
       base.class_eval do
+        attributes(:labels)
         has_many(labels: AdwordsSimpleApi::Label)
       end
     end

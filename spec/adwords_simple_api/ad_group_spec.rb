@@ -5,7 +5,7 @@ module AdwordsSimpleApi
     it_behaves_like "it has base finders"
     # it_behaves_like "it belongs to", :campaign
     it_behaves_like "it has status", [:enabled, :paused, :removed]
-    # it_behaves_like "it has many", :expanded_text_ads
+    it_behaves_like "it has many", ExpandedTextAd, :expanded_text_ads, :expanded_text_ad
     # it_behaves_like "it has labels"
 
   end
