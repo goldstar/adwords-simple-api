@@ -18,12 +18,9 @@ module AdwordsSimpleApi
     def has_many(name)
       name = name.to_sym
       @associations[name] ||= begin
-        klass = self.class.associations[name]
-        if attributes.key?(name)
-          AdwordsSimpleApi.wrap(attributes[name]).map{ |h| klass.new(h) }
-        else
-          klass.get({ field: id_field_str, operator: 'EQUALS',  values: [id] })
-        end
+        self.class.associations[name].get(
+          { field: id_field_str, operator: 'EQUALS',  values: [id] }
+        )
       end
     end
 
