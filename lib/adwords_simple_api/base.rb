@@ -19,7 +19,7 @@ module AdwordsSimpleApi
       @fields ||= []
       attr_reader :attributes
       attributes_names.each do |name|
-        @fields << name
+        add_field(name)
         define_method(name) do
           attributes[name]
         end
@@ -42,6 +42,11 @@ module AdwordsSimpleApi
       @attribute_field_names ||= {}
       f = @attribute_field_names[f.to_sym] || f
       AdwordsSimpleApi.camelcase(f)
+    end
+
+    def self.add_field(field)
+      @fields ||= []
+      @fields << field
     end
 
     def self.fields
