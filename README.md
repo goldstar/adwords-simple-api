@@ -137,6 +137,18 @@ AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.today).to_a        
 AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.yesterday..Date.today).to_a  # Report segmented by day for range
 ```
 
+### Eager Loading
+
+You can eager load associations to reduce API calls similar to ActiveRecord:
+
+```ruby
+AdwordsSimpleApi::Campaign.all(includes: :ad_groups)
+AdwordsSimpleApi::Campaign.all(includes: {ad_groups: :expanded_text_ads})
+AdwordsSimpleApi::Campaign.all(id: [campaign_ids], includes: :ad_groups)
+AdwordsSimpleApi::Campaign.find_by(name: 'shoes', includes: :ad_groups)
+AdwordsSimpleApi::CampaignGroup.find(id, includes: {campaigns: {ad_groups: :expanded_text_ads}})
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

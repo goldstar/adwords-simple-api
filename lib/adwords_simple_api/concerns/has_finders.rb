@@ -34,7 +34,7 @@ module AdwordsSimpleApi
           {
             field: field_name(k),
             operator: 'IN',
-            values: AdwordsSimpleApi.wrap(v).uniq
+            values: AdwordsSimpleApi.wrap(v).flatten.uniq
           }
         }
         results = get(predicates)
