@@ -12,11 +12,7 @@ module AdwordsSimpleApi
     def final_urls
       expanded_text_ads.flat_map{|ad| ad.final_urls }.uniq
     end
-
-    # def ad_groups
-    #   @ad_groups ||= AdGroup.get({ field: id_field_str, operator: 'EQUALS',  values: [id] })
-    # end
-
+    
     def expanded_text_ads
       @expanded_text_ads ||= ExpandedTextAd.for_campaign(id)
     end
