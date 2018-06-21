@@ -3,7 +3,11 @@ module AdwordsSimpleApi
     describe ".all" do
       context "with no predicates" do
         before do
-          allow(described_class.service).to receive(:get).with({ fields: described_class.field_names }).and_return(
+          allow(described_class.service).to receive(:get).with(
+            hash_including(
+              fields: described_class.field_names
+            )
+          ).and_return(
             entries: [ described_class_attributes ]
           )
         end
@@ -18,10 +22,12 @@ module AdwordsSimpleApi
 
       context "with predicates" do
         before do
-          allow(described_class.service).to receive(:get).with({
-            fields: described_class.field_names,
-            predicates: [{field: 'CampaignId', operator: 'IN', values: [99]}]
-          }).and_return(
+          allow(described_class.service).to receive(:get).with(
+            hash_including(
+              fields: described_class.field_names,
+              predicates: [{field: 'CampaignId', operator: 'IN', values: [99]}]
+            )
+          ).and_return(
             entries: [ described_class_attributes ]
           )
         end

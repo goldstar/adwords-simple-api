@@ -1,6 +1,8 @@
 module AdwordsSimpleApi
   API_VERSION = :v201802
-
+  PAGE_SIZE = 500
+  SLICE_SIZE = 500
+  
   def self.adwords=(adwords)
     @adwords = adwords
   end
