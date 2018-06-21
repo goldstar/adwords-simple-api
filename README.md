@@ -40,9 +40,10 @@ See the AdwordsApi documentation on the configuring a client and getting adwords
 ### AdGroups
 
 ```ruby
-ad_groups = AdwordsSimpleApi::AdGroup.all
-ad_groups = AdwordsSimpleApi::AdGroup.find(campaign_id)
-ad_groups = AdwordsSimpleApi::AdGroup.find_by(name: ad_group_name)
+ad_groups = AdwordsSimpleApi::AdGroup.all # Array of AdGroups
+ad_groups = AdwordsSimpleApi::AdGroup.all(campaign_id: campaign.id) # Array of AdGroups
+ad_groups = AdwordsSimpleApi::AdGroup.find(ad_group_id) # Instance or nil
+ad_groups = AdwordsSimpleApi::AdGroup.find_by(name: ad_group_name) # Instance or nil
 
 ad_group.enabled? # true
 ad_group.pause!
@@ -65,9 +66,10 @@ ad_group.expanded_text_ads # Array of ExpandedTextAd
 ### Campaigns
 
 ```ruby
-campaigns = AdwordsSimpleApi::Campaign.all
-campaign = AdwordsSimpleApi::Campaign.find(campaign_id)
-campaign = AdwordsSimpleApi::Campaign.find_by(name: campaign_name)
+campaigns = AdwordsSimpleApi::Campaign.all # Array of Campaign
+campaigns = AdwordsSimpleApi::Campaign.all(campaign_group_id: 2) # Array of Campaigns
+campaign = AdwordsSimpleApi::Campaign.find_by(name: campaign_name) # Instance of Campaign or nil
+campaign = AdwordsSimpleApi::Campaign.find(campaign_id) # same as all(id: campaign_id).first
 
 campaign.enabled? # true
 campaign.pause!
@@ -91,8 +93,8 @@ campaign.expanded_text_ads # array of ExpandedTextAd
 ### Campaign Groups
 
 ```ruby
-groups = AdwordsSimpleApi::CampaignGroup.all
-group = AdwordsSimpleApi::CampaignGroup.find(campaign_id)
+groups = AdwordsSimpleApi::CampaignGroup.all(finder_options) # Array of CampaignGroup
+group = AdwordsSimpleApi::CampaignGroup.find(campaign_id) # same as all(id: campaign_id).first
 
 group.id # 1
 group.name # 'group name'

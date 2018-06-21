@@ -17,11 +17,7 @@ module AdwordsSimpleApi
 
     def has_many(name)
       name = name.to_sym
-      @associations[name] ||= begin
-        self.class.associations[name].get(
-          { field: id_field_str, operator: 'EQUALS',  values: [id] }
-        )
-      end
+      @associations[name] ||= self.class.associations[name].all(id_field_sym => id)
     end
 
     def self.included(base)

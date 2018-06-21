@@ -1,10 +1,10 @@
 module AdwordsSimpleApi
   module HasFinders
 
-    module ClassMethods      
-      def get(predicates = nil)
+    module ClassMethods
+      def get(predicates = [])
         selector = { fields: field_names }
-        unless predicates.nil?
+        unless predicates.nil? || predicates.empty?
           selector[:predicates] = AdwordsSimpleApi.wrap(predicates)
         end
         response = service.get(selector)
@@ -15,8 +15,15 @@ module AdwordsSimpleApi
         end
       end
 
-      def all
-        get()
+      def all(hash = {})
+        predicates = hash.map{ |k,v|
+          {
+            field: field_name(k),
+            operator: 'EQUALS',
+            values: AdwordsSimpleApi.wrap(v)
+          }
+        }
+        get(predicates)
       end
 
       def find(id)
@@ -24,13 +31,7 @@ module AdwordsSimpleApi
       end
 
       def find_by(hash)
-        predicates = hash.map{ |k,v|
-          {
-            field: field_name(k),
-            operator: 'EQUALS',
-            values: AdwordsSimpleApi.wrap(v) }
-        }
-        get(predicates).first
+        all(hash).first
       end
     end
 

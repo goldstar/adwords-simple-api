@@ -1,18 +1,39 @@
 module AdwordsSimpleApi
   RSpec.shared_examples "it has base finders" do
     describe ".all" do
-      before do
-        allow(described_class.service).to receive(:get).with({ fields: described_class.field_names }).and_return(
-          entries: [ described_class_attributes ]
-        )
+      context "with no predicates" do
+        before do
+          allow(described_class.service).to receive(:get).with({ fields: described_class.field_names }).and_return(
+            entries: [ described_class_attributes ]
+          )
+        end
+
+        let(:results){ described_class.all }
+
+        it "should return an array of #{described_class.name}" do
+          expect(results).to be_an(Array)
+          expect(results.first).to be_a(described_class)
+        end
       end
 
-      let(:results){ described_class.all }
+      context "with predicates" do
+        before do
+          allow(described_class.service).to receive(:get).with({
+            fields: described_class.field_names,
+            predicates: [{field: 'CampaignId', operator: 'EQUALS', values: [99]}]
+          }).and_return(
+            entries: [ described_class_attributes ]
+          )
+        end
 
-      it "should return an array of #{described_class.name}" do
-        expect(results).to be_an(Array)
-        expect(results.first).to be_a(described_class)
+        let(:results){ described_class.all(campaign_id: 99) }
+
+        it "should return an array of #{described_class.name}" do
+          expect(results).to be_an(Array)
+          expect(results.first).to be_a(described_class)
+        end
       end
+
     end
 
     describe ".find_by" do

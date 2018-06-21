@@ -4,7 +4,7 @@ module AdwordsSimpleApi
     has_status :enabled, :removed
 
     def campaigns
-      @campaigns ||= Campaign.get({ field: id_field_str, operator: 'EQUALS',  values: [id] })
+      @campaigns ||= Campaign.all(id_field_sym => id)
     end
 
   end
