@@ -19,8 +19,8 @@ module AdwordsSimpleApi
         predicates = hash.map{ |k,v|
           {
             field: field_name(k),
-            operator: 'EQUALS',
-            values: AdwordsSimpleApi.wrap(v)
+            operator: 'IN',
+            values: AdwordsSimpleApi.wrap(v).uniq
           }
         }
         get(predicates)

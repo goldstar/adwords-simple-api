@@ -8,7 +8,7 @@ module AdwordsSimpleApi
     attributes :id, :campaign_id, :campaign_name, :name, :status,
      :settings, :base_campaign_id, :base_ad_group_id, :ad_group_type
 
-    # default_predicates [{field; 'Status', operator: 'EQUALS', values: ['ENABLED','PAUSED']}]
+    # default_predicates [{field; 'Status', operator: 'IN', values: ['ENABLED','PAUSED']}]
     has_status :enabled, :paused, :removed
 
     # def expanded_text_ads

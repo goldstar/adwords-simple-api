@@ -20,7 +20,7 @@ module AdwordsSimpleApi
         before do
           allow(described_class.service).to receive(:get).with({
             fields: described_class.field_names,
-            predicates: [{field: 'CampaignId', operator: 'EQUALS', values: [99]}]
+            predicates: [{field: 'CampaignId', operator: 'IN', values: [99]}]
           }).and_return(
             entries: [ described_class_attributes ]
           )
@@ -40,7 +40,7 @@ module AdwordsSimpleApi
       before do
         allow(described_class.service).to receive(:get).with(
           hash_including(
-            predicates: [{field: described_class.field_name(:name), operator: 'EQUALS', values: [described_class_attributes[:name]]}]
+            predicates: [{field: described_class.field_name(:name), operator: 'IN', values: [described_class_attributes[:name]]}]
           )
         ).and_return(entries: [described_class_attributes])
       end
