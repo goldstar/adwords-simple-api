@@ -5,6 +5,7 @@ module AdwordsSimpleApi
 
       def has_status(*status_labels)
         status_labels.each do |status|
+          attributes(:status)
           has_status = "#{status}?"
           change_status = status.to_s.gsub(/d$/,"!")
           status = status.to_s.upcase

@@ -1,5 +1,6 @@
 require 'adwords_simple_api/concerns/has_service'
 require 'adwords_simple_api/concerns/has_many'
+require 'adwords_simple_api/concerns/belongs_to'
 require 'adwords_simple_api/concerns/has_status'
 require 'adwords_simple_api/concerns/has_finders'
 
@@ -7,6 +8,7 @@ module AdwordsSimpleApi
   class Base
     include HasService
     include HasMany
+    include BelongsTo
     include HasStatus
     include HasFinders
 
@@ -18,7 +20,7 @@ module AdwordsSimpleApi
     def self.attributes(*attributes_names)
       @fields ||= []
       attr_reader :attributes
-      attributes_names.each do |name|
+      attributes_names.flatten.each do |name|
         add_field(name)
         define_method(name) do
           attributes[name]
@@ -47,10 +49,11 @@ module AdwordsSimpleApi
     def self.add_field(field)
       @fields ||= []
       @fields << field
+      @fields.uniq!
     end
 
     def self.fields
-      @fields
+      @fields ||= []
     end
 
     def self.associations
