@@ -2,7 +2,7 @@ module AdwordsSimpleApi
   API_VERSION = :v201802
   PAGE_SIZE = 500
   SLICE_SIZE = 500
-  
+
   def self.adwords=(adwords)
     @adwords = adwords
   end
@@ -38,6 +38,9 @@ end
 
 require 'adwords_api'
 require 'adwords_simple_api/base'
+require 'adwords_simple_api/feed_item'
+require 'adwords_simple_api/feed_item_target'
+require 'adwords_simple_api/feed'
 require 'adwords_simple_api/label'
 require 'adwords_simple_api/expanded_text_ad'
 require 'adwords_simple_api/ad_group'

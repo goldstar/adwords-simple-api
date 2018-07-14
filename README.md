@@ -118,6 +118,18 @@ ads.first.attributes # hash of values
 ads.first.final_urls # array of the final_urls
 ```
 
+### Feeds
+
+```ruby
+feed = AdwordsSimpleApi::Feed.find(feed_id)
+feed = AdwordsSimpleApi::Feed.find_by(name: 'feed name')
+feed.id # 1
+feed.name # 'label name'
+feed.status # 'ENABLED'
+feed.schema # Array of Hashes. Comes from schema.attributes[:attributes]
+feed.system_feed_generation_data
+```
+
 ### Labels
 
 ```ruby
