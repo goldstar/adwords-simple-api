@@ -8,6 +8,7 @@ module AdwordsSimpleApi
     it_behaves_like "it has many", AdGroup, :ad_groups, :ad_group
     # it_behaves_like "it has many", :expanded_text_ads
     # it_behaves_like "it has labels"
+    it_behaves_like "it has custom parameters", :url_custom_parameters
 
     describe "#final_urls" do
       it "gets the unique final urls from the expanded text ads"

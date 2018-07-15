@@ -5,7 +5,8 @@ module AdwordsSimpleApi
       :description, :path1, :path2, :creative_final_urls
 
     belongs_to(:ad_group)
-
+    has_custom_parameters :url_custom_parameters
+    attribute_field_names url_custom_parameters: :creative_url_custom_parameters
 
     def initialize(hash)
       if hash[:ad]

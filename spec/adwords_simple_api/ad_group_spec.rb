@@ -7,6 +7,7 @@ module AdwordsSimpleApi
     it_behaves_like "it has status", [:enabled, :paused, :removed]
     it_behaves_like "it has many", ExpandedTextAd, :expanded_text_ads, :expanded_text_ad
     # it_behaves_like "it has labels"
+    it_behaves_like "it has custom parameters", :url_custom_parameters
 
   end
 end
