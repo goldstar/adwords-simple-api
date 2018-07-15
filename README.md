@@ -61,6 +61,8 @@ ad_group.add_label(label_object) # true or false
 ad_group.remove_label(label_object) # true or false
 ad_group.campaign # Campaign object
 ad_group.expanded_text_ads # Array of ExpandedTextAd
+
+ad_group.set(name: 'A New Name', ...) # Mutates the ad_group
 ```
 
 ### Campaigns
@@ -79,6 +81,7 @@ campaign.enable!
 campaign.enabled? # true
 campaign.status # 'ENABLED'
 campaign.name # 'some campaign'
+campaign.set(name: 'A New Name', ...) # Mutates the campaign
 
 AdwordsSimpleApi::Campaign.fields # list of available attributes
 
@@ -100,6 +103,8 @@ group.id # 1
 group.name # 'group name'
 group.status # 'ENABLED'
 group.enabled? # true
+
+group.set(name: 'A New Name', ...) # Mutates the group
 
 group.attributes # Hash of values
 group.campaigns # Array of Campaign
@@ -137,9 +142,23 @@ AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.today).to_a        
 AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.yesterday..Date.today).to_a  # Report segmented by day for range
 ```
 
+### URL Custom parameters
+
+Campaigns, Ad Groups, and Ads can have URL custom parameters. This object's interface
+is similar to a hash and most hash methods work as expected.
+
+```ruby
+url_custom_parameters = AdwordsSimpleApi::Campaign.find(campaign_id).url_custom_parameters
+url_custom_parameters[:foo] = 'bar' # 'bar'
+url_custom_parameters.to_hash # {:foo => 'bar'}
+url_custom_parameters.keys # [:foo]  
+url_custom_parameters.delete(:foo)
+url_custom_parameters.save # calls set(url_custom_parameters: ...) on the owner e.g. Campaign
+```
+
 ### Eager Loading
 
-You can eager load associations to reduce API calls similar to ActiveRecord:
+You can eager load has_mnay associations to reduce API calls similar to ActiveRecord:
 
 ```ruby
 AdwordsSimpleApi::Campaign.all(includes: :ad_groups)

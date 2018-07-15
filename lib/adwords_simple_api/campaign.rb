@@ -8,8 +8,9 @@ module AdwordsSimpleApi
 
     attributes :id, :name, :status, :serving_status, :start_date,
      :end_date, :ad_serving_optimization_status, :settings, :advertising_channel_type,
-     :campaign_trial_type, :base_campaign_id, :url_custom_parameters
+     :campaign_trial_type, :base_campaign_id
     has_status :paused, :enabled, :removed
+    has_custom_parameters :url_custom_parameters
 
     def final_urls
       expanded_text_ads.flat_map{|ad| ad.final_urls }.uniq

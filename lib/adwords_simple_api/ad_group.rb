@@ -10,6 +10,7 @@ module AdwordsSimpleApi
 
     # default_predicates [{field; 'Status', operator: 'IN', values: ['ENABLED','PAUSED']}]
     has_status :enabled, :paused, :removed
+    has_custom_parameters :url_custom_parameters
 
   end
 end

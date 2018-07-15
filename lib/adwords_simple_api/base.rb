@@ -3,6 +3,7 @@ require 'adwords_simple_api/concerns/has_many'
 require 'adwords_simple_api/concerns/belongs_to'
 require 'adwords_simple_api/concerns/has_status'
 require 'adwords_simple_api/concerns/has_finders'
+require 'adwords_simple_api/concerns/has_custom_parameters'
 
 module AdwordsSimpleApi
   class Base
@@ -11,6 +12,7 @@ module AdwordsSimpleApi
     include BelongsTo
     include HasStatus
     include HasFinders
+    include HasCustomParameters
 
     def initialize(hash = {})
       @attributes = hash
@@ -18,7 +20,6 @@ module AdwordsSimpleApi
     end
 
     def self.attributes(*attributes_names)
-      @fields ||= []
       attr_reader :attributes
       attributes_names.flatten.each do |name|
         add_field(name)
@@ -102,6 +103,10 @@ module AdwordsSimpleApi
 
     def id_field_str
       self.class.id_field_str
+    end
+
+    def inspect
+      "#<#{self.class.to_s}:#{"%X" % self.object_id} @attributes=#{@attributes}>"
     end
 
   end
