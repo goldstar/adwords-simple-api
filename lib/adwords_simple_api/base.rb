@@ -26,9 +26,14 @@ module AdwordsSimpleApi
       attributes_names.flatten.each do |name|
         add_field(name)
         define_method(name) do
-          attributes[name]
+          get_attribute(name)
         end
       end
+    end
+
+    def get_attribute(name)
+      attribute_name = self.class.attribute_field_names[name] || name
+      attributes[attribute_name]
     end
 
     def self.attribute_field_names(hash = nil)

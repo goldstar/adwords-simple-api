@@ -67,15 +67,6 @@ module AdwordsSimpleApi
         subject.set(changes)
         expect(subject.attributes).to eq(changed_attributes)
       end
-
-      # def set(hash)
-      #   new_values = self.class.set(id, hash)
-      #   if new_values.first
-      #     @attributes = new_values.first
-      #   else
-      #     raise 'No objects were updated.'
-      #   end
-      # end
     end
   end
 end
