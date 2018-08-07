@@ -6,5 +6,6 @@ module AdwordsSimpleApi
     attribute_field_names id: :feed_item_id
 
     has_status :enabled, :removed
+    belongs_to(:feed)
   end
 end

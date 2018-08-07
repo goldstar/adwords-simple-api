@@ -32,8 +32,16 @@ module AdwordsSimpleApi
     end
 
     def get_attribute(name)
-      attribute_name = self.class.attribute_field_names[name] || name
-      attributes[attribute_name]
+      name = attribute_name(name)
+      attributes[name]
+    end
+
+    def self.attribute_name(name)
+      attribute_field_names[name] || name
+    end
+
+    def attribute_name(name)
+      self.class.attribute_name(name)
     end
 
     def self.attribute_field_names(hash = nil)
@@ -69,7 +77,7 @@ module AdwordsSimpleApi
     end
 
     def ==(obj)
-      obj.class == self.class && attributes[:id] && attributes[:id] == obj.id
+      obj.class == self.class && self.id && self.id == obj.id
     end
 
     def self.id_field_sym

@@ -23,7 +23,8 @@ module AdwordsSimpleApi
       end
 
       def set(id, hash)
-        operation = { :operator => 'SET', :operand => hash.merge(id: id) }
+        id_field = attribute_name(:id)
+        operation = { :operator => 'SET', :operand => hash.merge(id_field => id) }
         response = service.mutate([operation])
         if response && response[:value]
           response[:value]

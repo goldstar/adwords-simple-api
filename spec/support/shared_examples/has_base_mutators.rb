@@ -36,8 +36,9 @@ module AdwordsSimpleApi
       let(:id) { described_class_attributes[:id] }
       let(:mutated_attributes) { {name: 'new name'} }
       before do
+        id_field = described_class.attribute_name(:id)
         expect(described_class.service).to receive(:mutate).
-          with([operator: 'SET', operand: mutated_attributes.merge({id: id})]).
+          with([operator: 'SET', operand: mutated_attributes.merge({id_field => id})]).
           and_return(value: [described_class_attributes])
       end
       it "should return the new attributes" do
@@ -55,8 +56,9 @@ module AdwordsSimpleApi
       let(:changed_attributes){ described_class_attributes.merge(changes) }
 
       before do
+        id_field = subject.attribute_name(:id)
         expect(described_class.service).to receive(:mutate).
-          with([operator: 'SET', operand: changes.merge(id: subject.id)]).
+          with([operator: 'SET', operand: changes.merge(id_field => subject.id)]).
           and_return(value: [changed_attributes])
       end
       it "should call mutate" do
