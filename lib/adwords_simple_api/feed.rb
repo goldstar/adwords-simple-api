@@ -11,8 +11,8 @@ module AdwordsSimpleApi
       attributes[:attributes]
     end
 
-    def schema=(array)
-      attributes[:attributes] = schema
+    def schema=(value)
+      attributes[:attributes] = value
     end
 
     # def save
@@ -22,7 +22,7 @@ module AdwordsSimpleApi
     # def create
     #   service.mutate([create_operation])
     # end
-    
+
 #     # Create site links feed first.
 # site_links_feed = {
 #   :name => 'Feed For Site Links',

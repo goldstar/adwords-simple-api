@@ -44,6 +44,7 @@ ad_groups = AdwordsSimpleApi::AdGroup.all # Array of AdGroups
 ad_groups = AdwordsSimpleApi::AdGroup.all(campaign_id: campaign.id) # Array of AdGroups
 ad_groups = AdwordsSimpleApi::AdGroup.find(ad_group_id) # Instance or nil
 ad_groups = AdwordsSimpleApi::AdGroup.find_by(name: ad_group_name) # Instance or nil
+ad_group = AdwordsSimpleApi::AdGroup.create!(name: ad_group_name)
 
 ad_group.enabled? # true
 ad_group.pause!
@@ -63,6 +64,7 @@ ad_group.campaign # Campaign object
 ad_group.expanded_text_ads # Array of ExpandedTextAd
 
 ad_group.set(name: 'A New Name', ...) # Mutates the ad_group
+
 ```
 
 ### Campaigns
@@ -72,6 +74,7 @@ campaigns = AdwordsSimpleApi::Campaign.all # Array of Campaign
 campaigns = AdwordsSimpleApi::Campaign.all(campaign_group_id: 2) # Array of Campaigns
 campaign = AdwordsSimpleApi::Campaign.find_by(name: campaign_name) # Instance of Campaign or nil
 campaign = AdwordsSimpleApi::Campaign.find(campaign_id) # same as all(id: campaign_id).first
+campaign = AdwordsSimpleApi::Campaign.create!(name: campaign_name)
 
 campaign.enabled? # true
 campaign.pause!
@@ -98,6 +101,7 @@ campaign.expanded_text_ads # array of ExpandedTextAd
 ```ruby
 groups = AdwordsSimpleApi::CampaignGroup.all(finder_options) # Array of CampaignGroup
 group = AdwordsSimpleApi::CampaignGroup.find(campaign_id) # same as all(id: campaign_id).first
+group = AdwordsSimpleApi::CampaignGroup.create!(name: group_name)
 
 group.id # 1
 group.name # 'group name'
@@ -123,6 +127,8 @@ ads.first.final_urls # array of the final_urls
 ```ruby
 feed = AdwordsSimpleApi::Feed.find(feed_id)
 feed = AdwordsSimpleApi::Feed.find_by(name: 'feed name')
+feed = AdwordsSimpleApi::Feed.create!(name: feed_name)
+
 feed.id # 1
 feed.name # 'label name'
 feed.status # 'ENABLED'

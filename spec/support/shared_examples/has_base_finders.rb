@@ -57,7 +57,7 @@ module AdwordsSimpleApi
       end
 
       it "should have attributes" do
-        expect(subject).to have_attributes(described_class_attributes)
+        expect(subject.attributes).to eq(described_class_attributes)
       end
     end
 
