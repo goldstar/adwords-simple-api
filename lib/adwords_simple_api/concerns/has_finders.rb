@@ -71,6 +71,7 @@ module AdwordsSimpleApi
       end
 
       def find(id, options = {})
+        id_field = attribute_name(:id)
         options[:id] = id
         find_by(options)
       end
