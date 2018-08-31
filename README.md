@@ -136,6 +136,18 @@ feed.schema # Array of Hashes. Comes from schema.attributes[:attributes]
 feed.system_feed_generation_data
 ```
 
+### Feed Items
+
+```ruby
+feed_item = AdwordsSimpleApi::FeedItem.find(feed_item_id) # or
+feeds_items = AdwordsSimpleApi::Feed.find(feed_id).items
+
+feed_item.attribute_values # array of attribute values
+feed_item.to_hash # attribute values converted into a hash
+
+feed_item.attribute_values_for(hash) # convert a hash into an array of attribute_values
+```
+
 ### Labels
 
 ```ruby
