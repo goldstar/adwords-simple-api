@@ -65,7 +65,7 @@ module AdwordsSimpleApi
           end
         end
         objects.each do |obj|
-          obj.eager_load(name, associates[obj.id])
+          obj.load_has_many(name, AdwordsSimpleApi.wrap(associates[obj.id]))
         end
         objects
       end
@@ -79,10 +79,6 @@ module AdwordsSimpleApi
       def find_by(options)
         all(options).first
       end
-    end
-
-    def eager_load(name, associates)
-      @associations[name] = AdwordsSimpleApi.wrap(associates)
     end
 
     def self.included(base)

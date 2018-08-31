@@ -22,7 +22,15 @@ module AdwordsSimpleApi
           end
         end
       end
+    end
 
+    # When a has_many relationship is eager loaded, the inverse relationship
+    # is made by here.  This implementation isn't ideal because it assumes the
+    # the name of the association matches the class.
+    def eager_load_belongs_to(obj)
+      name = self.class.associations.select{|k,v| v == obj.class.name}.first.first
+      return unless name
+      @associations[name] = obj
     end
 
     def belongs_to(name)

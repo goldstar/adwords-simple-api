@@ -176,7 +176,7 @@ url_custom_parameters.save # calls set(url_custom_parameters: ...) on the owner 
 
 ### Eager Loading
 
-You can eager load has_mnay associations to reduce API calls similar to ActiveRecord:
+You can eager load has_many associations to reduce API calls similar to ActiveRecord:
 
 ```ruby
 AdwordsSimpleApi::Campaign.all(includes: :ad_groups)
@@ -185,6 +185,8 @@ AdwordsSimpleApi::Campaign.all(id: [campaign_ids], includes: :ad_groups)
 AdwordsSimpleApi::Campaign.find_by(name: 'shoes', includes: :ad_groups)
 AdwordsSimpleApi::CampaignGroup.find(id, includes: {campaigns: {ad_groups: :expanded_text_ads}})
 ```
+
+If the associated object has a corresponding belongs_to relation, that is also pre-set to reduce API calls.
 
 ## Development
 

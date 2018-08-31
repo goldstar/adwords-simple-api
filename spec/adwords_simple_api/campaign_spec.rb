@@ -49,6 +49,11 @@ module AdwordsSimpleApi
           expect(results[0].ad_groups.count).to eq(ad_groups_1.count)
           expect(results[1].ad_groups.count).to eq(ad_groups_2.count)
         end
+
+        it "should have eager loaded the campaign onto the adgroups as well" do
+          expect(results[0].ad_groups.first.campaign).to eq(results[0])
+          expect(results[1].ad_groups.first.campaign).to eq(results[1])
+        end
       end
 
     end
