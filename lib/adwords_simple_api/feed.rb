@@ -8,35 +8,32 @@ module AdwordsSimpleApi
     has_many(items: AdwordsSimpleApi::FeedItem)
 
     def schema
-      attributes[:attributes]
+      attributes[:attributes] || []
     end
 
     def schema=(value)
       attributes[:attributes] = value
     end
 
-    # def save
-    #   id.present? ? update : create
-    # end
-    #
-    # def create
-    #   service.mutate([create_operation])
-    # end
+    def schema_lookup_by_id
+      @schema_lookup_by_id ||= schema.map{|attribute|
+          [attribute[:id], attribute]
+        }.to_h
+    end
 
-#     # Create site links feed first.
-# site_links_feed = {
-#   :name => 'Feed For Site Links',
-#   :attributes => [
-#     {:type => 'STRING', :name => 'Link Text'},
-#     {:type => 'URL_LIST', :name => 'Final URLs'},
-#     {:type => 'STRING', :name => 'Line 2 Description'},
-#     {:type => 'STRING', :name => 'Line 3 Description'}
-#   ]
-# }
-#
-# response = feed_srv.mutate([
-#     {:operator => 'ADD', :operand => site_links_feed}
-# ])
+    def sync_item_values(new_values, options = {})
+      Synchronizer.new(self, new_values, options).run
+      items
+    end
+
+    def key_attributes
+      schema.select{ |a| a[:is_part_of_key] }
+    end
+
+    def enabled_items(reload: false)
+      @enabled_items = nil if reload
+      @enabled_items ||= AdwordsSimpleApi::FeedItem.all(id_field_sym => id, status: 'ENABLED')
+    end
 
   end
 end

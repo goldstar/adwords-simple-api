@@ -23,8 +23,7 @@ module AdwordsSimpleApi
       end
 
       def set(id, hash)
-        id_field = attribute_name(:id)
-        operation = { :operator => 'SET', :operand => hash.merge(id_field => id) }
+        operation = set_operation(id, hash)
         response = service.mutate([operation])
         if response && response[:value]
           response[:value]
@@ -32,6 +31,21 @@ module AdwordsSimpleApi
           []
         end
       end
+
+      def set_operation(id, hash)
+        id_field = attribute_name(:id)
+        { :operator => 'SET', :operand => hash.merge(id_field => id) }
+      end
+
+      def add_operation(hash)
+        { :operator => 'ADD', :operand => hash }
+      end
+
+      def remove_operation(id, hash = {})
+        id_field = attribute_name(:id)
+        { :operator => 'REMOVE', :operand => hash.merge({id_field => id}) }
+      end
+
     end
 
     # def save
@@ -58,6 +72,14 @@ module AdwordsSimpleApi
       else
         raise 'No objects were updated.'
       end
+    end
+
+    def set_operation(hash)
+      self.class.set_operation(self.id, hash)
+    end
+
+    def remove_operation
+      self.class.remove_operation(self.id)
     end
 
     def self.included(base)
