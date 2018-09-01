@@ -1,4 +1,4 @@
-module AdwordsSimpleApi
+module GoogleAdsSimpleApi
   RSpec.shared_examples "it has status" do |statuses|
     statuses.each do |status|
       has_status = "#{status}?"

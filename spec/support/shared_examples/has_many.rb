@@ -1,4 +1,4 @@
-module AdwordsSimpleApi
+module GoogleAdsSimpleApi
   RSpec.shared_examples "it has many" do |klass, plural, singular|
     describe "##{plural}" do
       let(:attributes){ attributes_for(singular) }

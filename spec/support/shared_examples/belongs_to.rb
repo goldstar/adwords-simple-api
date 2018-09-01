@@ -1,4 +1,4 @@
-module AdwordsSimpleApi
+module GoogleAdsSimpleApi
   RSpec.shared_examples "it belongs to" do |klass, singular|
     describe "##{singular}" do
       let(:attributes){ attributes_for(singular) }

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :campaign, class: AdwordsSimpleApi::Campaign do
+  factory :campaign, class: GoogleAdsSimpleApi::Campaign do
     sequence :id
     sequence :name do |n|
       "Camapign n"

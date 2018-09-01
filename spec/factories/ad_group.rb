@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :ad_group, class: AdwordsSimpleApi::AdGroup do
+  factory :ad_group, class: GoogleAdsSimpleApi::AdGroup do
     sequence :id
     sequence :name do |n|
       "Ad Group n"

@@ -1,4 +1,4 @@
-module AdwordsSimpleApi
+module GoogleAdsSimpleApi
   RSpec.shared_examples "it has base finders" do |options|
 
     let(:find_by_field_name){ (options && options[:find_by]) || :name }

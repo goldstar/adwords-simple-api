@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :expanded_text_ad, class: AdwordsSimpleApi::ExpandedTextAd do
+  factory :expanded_text_ad, class: GoogleAdsSimpleApi::ExpandedTextAd do
     sequence :id
     headline_part1 "Come one, come all"
     headline_part2 "The greatest show on earth"
