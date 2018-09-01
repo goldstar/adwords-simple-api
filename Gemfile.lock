@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    adwords-simple-api (0.1.0)
+    google-ads-simple-api (0.1.0)
       google-adwords-api (~> 1.2)
       json
 
@@ -96,9 +96,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  adwords-simple-api!
   bundler (~> 1.16)
   factory_bot (~> 4.0)
+  google-ads-simple-api!
   pry
   rake (~> 10.0)
   rspec (~> 3.0)

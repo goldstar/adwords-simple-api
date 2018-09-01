@@ -1,4 +1,4 @@
-module AdwordsSimpleApi
+module GoogleAdsSimpleApi
   RSpec.shared_examples "it has custom parameters" do |attribute|
     describe "##{attribute}" do
       let(:described_class_instance) { described_class.new(described_class_attributes) }

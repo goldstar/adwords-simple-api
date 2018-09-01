@@ -1,4 +1,4 @@
-module AdwordsSimpleApi
+module GoogleAdsSimpleApi
   RSpec.shared_examples "it has base mutators" do
     describe ".create!" do
       before do

@@ -1,4 +1,4 @@
-# AdwordsSimpleApi
+# GoogleAdsSimpleApi
 
 Adwords' SOAP API is a complicated and powerful beast with a steep learning curve that allows you access to everything in Adwords. The official ruby client library is a thin layer on top of that API that isn't very rubyish. This gem isn't powerful nor complete, far from both, but is instead a handful of the most common tasks with a very simple ruby like interface.
 
@@ -30,9 +30,9 @@ Or install it yourself as:
 ### Congifiguration
 
 ```ruby
-require 'adwords_simple_api'
+require 'google_ads_simple_api'
 
-AdwordsSimpleApi.adwords = AdwordsApi::Api.new(options)
+GoogleAdsSimpleApi.adwords = AdwordsApi::Api.new(options)
 ```
 
 See the AdwordsApi documentation on the configuring a client and getting adwords api access.
@@ -40,11 +40,11 @@ See the AdwordsApi documentation on the configuring a client and getting adwords
 ### AdGroups
 
 ```ruby
-ad_groups = AdwordsSimpleApi::AdGroup.all # Array of AdGroups
-ad_groups = AdwordsSimpleApi::AdGroup.all(campaign_id: campaign.id) # Array of AdGroups
-ad_groups = AdwordsSimpleApi::AdGroup.find(ad_group_id) # Instance or nil
-ad_groups = AdwordsSimpleApi::AdGroup.find_by(name: ad_group_name) # Instance or nil
-ad_group = AdwordsSimpleApi::AdGroup.create!(name: ad_group_name)
+ad_groups = GoogleAdsSimpleApi::AdGroup.all # Array of AdGroups
+ad_groups = GoogleAdsSimpleApi::AdGroup.all(campaign_id: campaign.id) # Array of AdGroups
+ad_groups = GoogleAdsSimpleApi::AdGroup.find(ad_group_id) # Instance or nil
+ad_groups = GoogleAdsSimpleApi::AdGroup.find_by(name: ad_group_name) # Instance or nil
+ad_group = GoogleAdsSimpleApi::AdGroup.create!(name: ad_group_name)
 
 ad_group.enabled? # true
 ad_group.pause!
@@ -54,7 +54,7 @@ ad_group.enabled? # true
 ad_group.status # 'ENABLED'
 ad_group.name # 'some ad group'
 
-AdwordsSimpleApi::AdGroup.fields # list of available attributes
+GoogleAdsSimpleApi::AdGroup.fields # list of available attributes
 
 ad_group.attributes # hash of values
 ad_group.labels # array of Label
@@ -70,11 +70,11 @@ ad_group.set(name: 'A New Name', ...) # Mutates the ad_group
 ### Campaigns
 
 ```ruby
-campaigns = AdwordsSimpleApi::Campaign.all # Array of Campaign
-campaigns = AdwordsSimpleApi::Campaign.all(campaign_group_id: 2) # Array of Campaigns
-campaign = AdwordsSimpleApi::Campaign.find_by(name: campaign_name) # Instance of Campaign or nil
-campaign = AdwordsSimpleApi::Campaign.find(campaign_id) # same as all(id: campaign_id).first
-campaign = AdwordsSimpleApi::Campaign.create!(name: campaign_name)
+campaigns = GoogleAdsSimpleApi::Campaign.all # Array of Campaign
+campaigns = GoogleAdsSimpleApi::Campaign.all(campaign_group_id: 2) # Array of Campaigns
+campaign = GoogleAdsSimpleApi::Campaign.find_by(name: campaign_name) # Instance of Campaign or nil
+campaign = GoogleAdsSimpleApi::Campaign.find(campaign_id) # same as all(id: campaign_id).first
+campaign = GoogleAdsSimpleApi::Campaign.create!(name: campaign_name)
 
 campaign.enabled? # true
 campaign.pause!
@@ -86,7 +86,7 @@ campaign.status # 'ENABLED'
 campaign.name # 'some campaign'
 campaign.set(name: 'A New Name', ...) # Mutates the campaign
 
-AdwordsSimpleApi::Campaign.fields # list of available attributes
+GoogleAdsSimpleApi::Campaign.fields # list of available attributes
 
 campaign.attributes # hash of values
 campaign.labels # array of Label
@@ -99,9 +99,9 @@ campaign.expanded_text_ads # array of ExpandedTextAd
 ### Campaign Groups
 
 ```ruby
-groups = AdwordsSimpleApi::CampaignGroup.all(finder_options) # Array of CampaignGroup
-group = AdwordsSimpleApi::CampaignGroup.find(campaign_id) # same as all(id: campaign_id).first
-group = AdwordsSimpleApi::CampaignGroup.create!(name: group_name)
+groups = GoogleAdsSimpleApi::CampaignGroup.all(finder_options) # Array of CampaignGroup
+group = GoogleAdsSimpleApi::CampaignGroup.find(campaign_id) # same as all(id: campaign_id).first
+group = GoogleAdsSimpleApi::CampaignGroup.create!(name: group_name)
 
 group.id # 1
 group.name # 'group name'
@@ -117,7 +117,7 @@ group.campaigns # Array of Campaign
 ### Expanded Text Ads
 
 ```ruby
-ads = AdwordsSimpleApi::ExpandedTextAd.for_campaign(campaign_id)  # array of ExpandedTextAds
+ads = GoogleAdsSimpleApi::ExpandedTextAd.for_campaign(campaign_id)  # array of ExpandedTextAds
 ads.first.attributes # hash of values
 ads.first.final_urls # array of the final_urls
 ```
@@ -125,9 +125,9 @@ ads.first.final_urls # array of the final_urls
 ### Feeds
 
 ```ruby
-feed = AdwordsSimpleApi::Feed.find(feed_id)
-feed = AdwordsSimpleApi::Feed.find_by(name: 'feed name')
-feed = AdwordsSimpleApi::Feed.create!(name: feed_name)
+feed = GoogleAdsSimpleApi::Feed.find(feed_id)
+feed = GoogleAdsSimpleApi::Feed.find_by(name: 'feed name')
+feed = GoogleAdsSimpleApi::Feed.create!(name: feed_name)
 
 feed.id # 1
 feed.name # 'label name'
@@ -139,8 +139,8 @@ feed.system_feed_generation_data
 ### Feed Items
 
 ```ruby
-feed_item = AdwordsSimpleApi::FeedItem.find(feed_item_id) # or
-feeds_items = AdwordsSimpleApi::Feed.find(feed_id).items
+feed_item = GoogleAdsSimpleApi::FeedItem.find(feed_item_id) # or
+feeds_items = GoogleAdsSimpleApi::Feed.find(feed_id).items
 
 feed_item.attribute_values # array of attribute values
 feed_item.to_hash # attribute values converted into a hash
@@ -151,8 +151,8 @@ feed_item.attribute_values_for(hash) # convert a hash into an array of attribute
 ### Labels
 
 ```ruby
-label = AdwordsSimpleApi::Label.find(label_id)
-label = AdwordsSimpleApi::Label.find_by(name: 'label name')
+label = GoogleAdsSimpleApi::Label.find(label_id)
+label = GoogleAdsSimpleApi::Label.find_by(name: 'label name')
 label.id # 1
 label.name # 'label name'
 label.status # 'ENABLED'
@@ -164,12 +164,12 @@ label.ad_groups # Array of AdGroup
 ### Reports
 
 ```ruby
-AdwordsSimpleApi::Reports::AdPerformanceReport.new.to_a # Array of Hashes
-AdwordsSimpleApi::Reports::CampaignPerformanceReport.new.to_a
-AdwordsSimpleApi::Reports::PlaceholderFeedItemReport.new.to_a
-AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new.to_a                              # Report for yesterday
-AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.today).to_a                  # Report for today
-AdwordsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.yesterday..Date.today).to_a  # Report segmented by day for range
+GoogleAdsSimpleApi::Reports::AdPerformanceReport.new.to_a # Array of Hashes
+GoogleAdsSimpleApi::Reports::CampaignPerformanceReport.new.to_a
+GoogleAdsSimpleApi::Reports::PlaceholderFeedItemReport.new.to_a
+GoogleAdsSimpleApi::Reports::DailyAdPerformanceReport.new.to_a                              # Report for yesterday
+GoogleAdsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.today).to_a                  # Report for today
+GoogleAdsSimpleApi::Reports::DailyAdPerformanceReport.new(Date.yesterday..Date.today).to_a  # Report segmented by day for range
 ```
 
 ### URL Custom parameters
@@ -178,7 +178,7 @@ Campaigns, Ad Groups, and Ads can have URL custom parameters. This object's inte
 is similar to a hash and most hash methods work as expected.
 
 ```ruby
-url_custom_parameters = AdwordsSimpleApi::Campaign.find(campaign_id).url_custom_parameters
+url_custom_parameters = GoogleAdsSimpleApi::Campaign.find(campaign_id).url_custom_parameters
 url_custom_parameters[:foo] = 'bar' # 'bar'
 url_custom_parameters.to_hash # {:foo => 'bar'}
 url_custom_parameters.keys # [:foo]  
@@ -191,11 +191,11 @@ url_custom_parameters.save # calls set(url_custom_parameters: ...) on the owner 
 You can eager load has_many associations to reduce API calls similar to ActiveRecord:
 
 ```ruby
-AdwordsSimpleApi::Campaign.all(includes: :ad_groups)
-AdwordsSimpleApi::Campaign.all(includes: {ad_groups: :expanded_text_ads})
-AdwordsSimpleApi::Campaign.all(id: [campaign_ids], includes: :ad_groups)
-AdwordsSimpleApi::Campaign.find_by(name: 'shoes', includes: :ad_groups)
-AdwordsSimpleApi::CampaignGroup.find(id, includes: {campaigns: {ad_groups: :expanded_text_ads}})
+GoogleAdsSimpleApi::Campaign.all(includes: :ad_groups)
+GoogleAdsSimpleApi::Campaign.all(includes: {ad_groups: :expanded_text_ads})
+GoogleAdsSimpleApi::Campaign.all(id: [campaign_ids], includes: :ad_groups)
+GoogleAdsSimpleApi::Campaign.find_by(name: 'shoes', includes: :ad_groups)
+GoogleAdsSimpleApi::CampaignGroup.find(id, includes: {campaigns: {ad_groups: :expanded_text_ads}})
 ```
 
 If the associated object has a corresponding belongs_to relation, that is also pre-set to reduce API calls.

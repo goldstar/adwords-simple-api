@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "adwords_simple_api"
+require "google_ads_simple_api"
 require 'pry'
 Dir["./spec/support/**/*.rb"].each {|f| require f}
 
@@ -15,6 +15,6 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    AdwordsSimpleApi.adwords = AdwordsMock.new()
+    GoogleAdsSimpleApi.adwords = GoogleAdsMock.new()
   end
 end

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :feed, class: AdwordsSimpleApi::Feed do
+  factory :feed, class: GoogleAdsSimpleApi::Feed do
     sequence :id
     sequence :name do |n|
       "Feed n"

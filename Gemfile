@@ -2,5 +2,5 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-# Specify your gem's dependencies in adwords-simple-api.gemspec
+# Specify your gem's dependencies in google-ads-simple-api.gemspec
 gemspec
