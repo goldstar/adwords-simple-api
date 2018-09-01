@@ -1,5 +1,8 @@
 module AdwordsSimpleApi
-  RSpec.shared_examples "it has base finders" do
+  RSpec.shared_examples "it has base finders" do |options|
+
+    let(:find_by_field_name){ (options && options[:find_by]) || :name }
+
     describe ".all" do
       context "with no predicates" do
         before do
@@ -46,18 +49,18 @@ module AdwordsSimpleApi
       before do
         allow(described_class.service).to receive(:get).with(
           hash_including(
-            predicates: [{field: described_class.field_name(:name), operator: 'IN', values: [described_class_attributes[:name]]}]
+            predicates: [{field: described_class.field_name(find_by_field_name), operator: 'IN', values: [described_class_attributes[find_by_field_name]]}]
           )
         ).and_return(entries: [described_class_attributes])
       end
 
-      let(:subject) { described_class.find_by(name: described_class_attributes[:name]) }
+      let(:subject) { described_class.find_by(find_by_field_name => described_class_attributes[find_by_field_name]) }
       it "should return a #{described_class.name} object" do
         expect(subject).to be_a(described_class)
       end
 
       it "should have attributes" do
-        expect(subject).to have_attributes(described_class_attributes)
+        expect(subject.attributes).to eq(described_class_attributes)
       end
     end
 

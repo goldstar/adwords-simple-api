@@ -1,0 +1,39 @@
+module AdwordsSimpleApi
+  class Feed < Base
+    service :feed_service
+    attributes :id, :name, :status, :origin, :system_feed_generation_data, :feed_attributes
+    attribute_field_names status: :feed_status, feed_attributes: :attributes
+
+    has_status :enabled, :removed
+    has_many(items: AdwordsSimpleApi::FeedItem)
+
+    def schema
+      attributes[:attributes] || []
+    end
+
+    def schema=(value)
+      attributes[:attributes] = value
+    end
+
+    def schema_lookup_by_id
+      @schema_lookup_by_id ||= schema.map{|attribute|
+          [attribute[:id], attribute]
+        }.to_h
+    end
+
+    def sync_item_values(new_values, options = {})
+      Synchronizer.new(self, new_values, options).run
+      items
+    end
+
+    def key_attributes
+      schema.select{ |a| a[:is_part_of_key] }
+    end
+
+    def enabled_items(reload: false)
+      @enabled_items = nil if reload
+      @enabled_items ||= AdwordsSimpleApi::FeedItem.all(id_field_sym => id, status: 'ENABLED')
+    end
+
+  end
+end

@@ -9,8 +9,9 @@ module AdwordsSimpleApi
 
       describe "##{change_status} & ##{has_status}" do
         before do
+          id_field = subject.attribute_name(:id)
           allow(subject.class.service).to receive(:mutate).with(
-            [{:operator=>"SET", :operand=>{:status=>status, :id=>subject.id}}]
+            [{:operator=>"SET", :operand=>{:status=>status, id_field => subject.id}}]
           ).and_return(
             {value: [described_class_attributes.merge(status: status)]}
           )

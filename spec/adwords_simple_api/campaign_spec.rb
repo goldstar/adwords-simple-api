@@ -3,6 +3,7 @@ module AdwordsSimpleApi
     let(:described_class_attributes){ attributes_for(:campaign) }
 
     it_behaves_like "it has base finders"
+    it_behaves_like "it has base mutators"
     it_behaves_like "it belongs to", CampaignGroup, :campaign_group
     it_behaves_like "it has status", [:enabled, :paused, :removed]
     it_behaves_like "it has many", AdGroup, :ad_groups, :ad_group
@@ -47,6 +48,11 @@ module AdwordsSimpleApi
         it "should have loaded the ad groups for both campaigns" do
           expect(results[0].ad_groups.count).to eq(ad_groups_1.count)
           expect(results[1].ad_groups.count).to eq(ad_groups_2.count)
+        end
+
+        it "should have eager loaded the campaign onto the adgroups as well" do
+          expect(results[0].ad_groups.first.campaign).to eq(results[0])
+          expect(results[1].ad_groups.first.campaign).to eq(results[1])
         end
       end
 

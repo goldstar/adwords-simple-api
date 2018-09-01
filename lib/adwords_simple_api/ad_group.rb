@@ -8,6 +8,8 @@ module AdwordsSimpleApi
 
     attributes :id, :name, :status, :settings, :base_ad_group_id, :ad_group_type
 
+    # TO-DO: CampaignStatus IN ['ENABLED', PAUSED]
+    # It already uses default predicates for status
     # default_predicates [{field; 'Status', operator: 'IN', values: ['ENABLED','PAUSED']}]
     has_status :enabled, :paused, :removed
     has_custom_parameters :url_custom_parameters

@@ -3,6 +3,7 @@ require 'adwords_simple_api/concerns/has_many'
 require 'adwords_simple_api/concerns/belongs_to'
 require 'adwords_simple_api/concerns/has_status'
 require 'adwords_simple_api/concerns/has_finders'
+require 'adwords_simple_api/concerns/has_mutators'
 require 'adwords_simple_api/concerns/has_custom_parameters'
 
 module AdwordsSimpleApi
@@ -12,6 +13,7 @@ module AdwordsSimpleApi
     include BelongsTo
     include HasStatus
     include HasFinders
+    include HasMutators
     include HasCustomParameters
 
     def initialize(hash = {})
@@ -24,9 +26,22 @@ module AdwordsSimpleApi
       attributes_names.flatten.each do |name|
         add_field(name)
         define_method(name) do
-          attributes[name]
+          get_attribute(name)
         end
       end
+    end
+
+    def get_attribute(name)
+      name = attribute_name(name)
+      attributes[name]
+    end
+
+    def self.attribute_name(name)
+      attribute_field_names[name] || name
+    end
+
+    def attribute_name(name)
+      self.class.attribute_name(name)
     end
 
     def self.attribute_field_names(hash = nil)
@@ -61,28 +76,8 @@ module AdwordsSimpleApi
       @associations
     end
 
-
-    def self.set(id, hash)
-      operation = { :operator => 'SET', :operand => hash.merge(id: id) }
-      response = service.mutate([operation])
-      if response && response[:value]
-        response[:value]
-      else
-        []
-      end
-    end
-
-    def set(hash)
-      new_values = self.class.set(id, hash)
-      if new_values.first
-        @attributes = new_values.first
-      else
-        raise 'No objects were updated.'
-      end
-    end
-
     def ==(obj)
-      obj.class == self.class && attributes[:id] && attributes[:id] == obj.id
+      obj.class == self.class && self.id && self.id == obj.id
     end
 
     def self.id_field_sym
