@@ -71,8 +71,8 @@ module GoogleAdsSimpleApi
       end
 
       def find(id, options = {})
-        id_field = attribute_name(:id)
-        options[:id] = id
+        id_key = field_key(:id)
+        options[id_key] = id
         find_by(options)
       end
 

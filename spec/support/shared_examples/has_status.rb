@@ -9,14 +9,15 @@ module GoogleAdsSimpleApi
 
       describe "##{change_status} & ##{has_status}" do
         before do
-          id_field = subject.attribute_name(:id)
+          id_key = subject.field_key(:id)
           allow(subject.class.service).to receive(:mutate).with(
-            [{:operator=>"SET", :operand=>{:status=>status, id_field => subject.id}}]
+            [{:operator=>"SET", :operand=>{:status=>status, id_key => subject.id}}]
           ).and_return(
             {value: [described_class_attributes.merge(status: status)]}
           )
         end
         let(:instance_with_status) { described_class.new(described_class_attributes.merge(status: 'UNKNOWN')) }
+
         it "should change the status" do
           expect{ subject.send(change_status) }.to change{ subject.send(has_status) }.from(false).to(true)
         end

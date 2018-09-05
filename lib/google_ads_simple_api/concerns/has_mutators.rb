@@ -33,8 +33,8 @@ module GoogleAdsSimpleApi
       end
 
       def set_operation(id, hash)
-        id_field = attribute_name(:id)
-        { :operator => 'SET', :operand => hash.merge(id_field => id) }
+        id_key = field_key(:id)
+        { :operator => 'SET', :operand => hash.merge(id_key => id) }
       end
 
       def add_operation(hash)

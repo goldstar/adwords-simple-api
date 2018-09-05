@@ -32,16 +32,7 @@ module GoogleAdsSimpleApi
     end
 
     def get_attribute(name)
-      name = attribute_name(name)
       attributes[name]
-    end
-
-    def self.attribute_name(name)
-      attribute_field_names[name] || name
-    end
-
-    def attribute_name(name)
-      self.class.attribute_name(name)
     end
 
     def self.attribute_field_names(hash = nil)
@@ -60,6 +51,19 @@ module GoogleAdsSimpleApi
       @attribute_field_names ||= {}
       f = @attribute_field_names[f.to_sym] || f
       GoogleAdsSimpleApi.camelcase(f)
+    end
+
+    # "Id"
+    def field_name(f)
+      self.class.field_name(f)
+    end
+
+    def self.field_key(attribute_name)
+      attribute_name
+    end
+
+    def field_key(attribute_name)
+      self.class.field_key(attribute_name)
     end
 
     def self.add_field(field)
