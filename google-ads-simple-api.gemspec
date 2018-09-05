@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{A very small (and incomplete) wrapper for the Google Ads Api }
   # spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "https://github.com/goldstar/adwords-simple-api"
+  spec.homepage      = "https://github.com/goldstar/google-ads-simple-api"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
