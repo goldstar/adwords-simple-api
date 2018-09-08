@@ -8,7 +8,7 @@ module GoogleAdsSimpleApi
         allow(klass.service).to receive(:get).with(
           hash_including(
             predicates:
-              [{ field: described_class.id_field_str, operator: 'IN',  values: [described_class_instance.id] }]
+              [{ field: described_class.id_field, operator: 'IN',  values: [described_class_instance.id] }]
           )
         ).and_return(entries: [attributes])
       end

@@ -7,12 +7,12 @@ module GoogleAdsSimpleApi
     let(:example_class) { CampaignBalloon }
     let(:example_instance) { CampaignBalloon.new({}) }
 
-    describe ".id_field_sym" do
-      it { expect(example_class.id_field_sym).to eq(:campaign_balloon_id) }
+    describe ".id_key" do
+      it { expect(example_class.id_key).to eq(:campaign_balloon_id) }
     end
 
-    describe ".id_field_str" do
-      it { expect(example_class.id_field_str).to eq('CampaignBalloonId') }
+    describe ".id_field" do
+      it { expect(example_class.id_field).to eq('CampaignBalloonId') }
     end
   end
 end

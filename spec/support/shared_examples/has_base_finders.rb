@@ -40,7 +40,7 @@ module GoogleAdsSimpleApi
         it "should return an array of #{described_class.name}" do
           expect(results).to be_an(Array)
           expect(results.first).to be_a(described_class)
-        end
+        end if described_class.field_names.include?("CampaignId")
       end
 
     end

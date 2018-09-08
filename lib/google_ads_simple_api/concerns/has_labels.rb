@@ -6,7 +6,7 @@ module GoogleAdsSimpleApi
         begin
           service.mutate_label([{
             :operator => operator.to_s.upcase,
-            :operand => {:label_id=> label_id, id_field_sym => id}
+            :operand => {:label_id=> label_id, id_key => id}
           }])
           true
         rescue AdwordsApi::Errors::ApiException => e
@@ -31,11 +31,10 @@ module GoogleAdsSimpleApi
       @labels ||= GoogleAdsSimpleApi.wrap(attributes[:labels]).map{ |h| Label.new(h) }
     end
 
-
     def self.included(base)
       base.extend(ClassMethods)
       base.class_eval do
-        add_field(:labels)
+        attribute :labels, no_getter: true
       end
     end
 

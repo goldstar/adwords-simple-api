@@ -1,8 +1,9 @@
 module GoogleAdsSimpleApi
   class Label < Base
     service :label_service
-    attributes :id, :name, :status
-    attribute_field_names id: :label_id, name: :label_name, status: :label_status
+
+    attribute :name, field: :label_name
+    attribute :status, field: :label_status
 
     has_status :enabled, :removed
 

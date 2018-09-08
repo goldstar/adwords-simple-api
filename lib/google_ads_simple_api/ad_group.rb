@@ -6,7 +6,7 @@ module GoogleAdsSimpleApi
     has_many(expanded_text_ads: GoogleAdsSimpleApi::ExpandedTextAd)
     belongs_to(:campaign)
 
-    attributes :id, :name, :status, :settings, :base_ad_group_id, :ad_group_type
+    attributes :name, :status, :settings, :base_ad_group_id, :ad_group_type
 
     # TO-DO: CampaignStatus IN ['ENABLED', PAUSED]
     # It already uses default predicates for status

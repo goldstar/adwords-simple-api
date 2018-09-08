@@ -1,8 +1,10 @@
 module GoogleAdsSimpleApi
   class Feed < Base
     service :feed_service
-    attributes :id, :name, :status, :origin, :system_feed_generation_data, :feed_attributes
-    attribute_field_names status: :feed_status, feed_attributes: :attributes
+
+    attributes :id, :name, :origin, :system_feed_generation_datas
+    attribute :status, field: :feed_status
+    attribute :feed_attributes, field: :attributes  # TODO. should just be attributes
 
     has_status :enabled, :removed
     has_many(items: GoogleAdsSimpleApi::FeedItem)

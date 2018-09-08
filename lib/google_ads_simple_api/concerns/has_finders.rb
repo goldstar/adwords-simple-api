@@ -59,8 +59,8 @@ module GoogleAdsSimpleApi
         ids = objects.map(&:id)
         associates = Hash.new { |h, k| h[k] = [] }
         ids.each_slice(SLICE_SIZE) do |slice|
-          klass.all(id_field_sym => slice, includes: includes).each do |associate|
-            parent_id = associate.send(id_field_sym)
+          klass.all(id_key => slice, includes: includes).each do |associate|
+            parent_id = associate.send(id_key)
             associates[parent_id].concat([associate])
           end
         end
