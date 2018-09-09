@@ -6,11 +6,12 @@ module GoogleAdsSimpleApi
     has_many(ad_groups: GoogleAdsSimpleApi::AdGroup)
     belongs_to(:campaign_group)
 
-    attributes :name, :status, :serving_status, :start_date,
+    attributes :name, :serving_status, :start_date,
      :end_date, :ad_serving_optimization_status, :settings, :advertising_channel_type,
      :campaign_trial_type, :base_campaign_id
-    has_status :paused, :enabled, :removed
-    has_custom_parameters :url_custom_parameters
+    status_attribute :status, states: [:paused, :enabled, :removed]
+
+    custom_parameters_attribute :url_custom_parameters
 
     def final_urls
       expanded_text_ads.flat_map{|ad| ad.final_urls }.uniq

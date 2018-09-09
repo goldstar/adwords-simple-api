@@ -3,9 +3,10 @@ module GoogleAdsSimpleApi
     service :ad_group_ad_service
     attributes :headline_part1, :headline_part2,
       :description, :path1, :path2, :creative_final_urls
+    custom_parameters_attribute :url_custom_parameters, field: :creative_url_custom_parameters
 
     belongs_to(:ad_group)
-    has_custom_parameters :url_custom_parameters, field: :creative_url_custom_parameters
+
 
     def initialize(hash)
       if hash[:ad]

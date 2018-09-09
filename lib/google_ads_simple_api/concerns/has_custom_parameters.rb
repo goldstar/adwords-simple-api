@@ -5,7 +5,7 @@ module GoogleAdsSimpleApi
 
     module ClassMethods
 
-      def has_custom_parameters(name, options = {})
+      def custom_parameters_attribute(name, options = {})
         attribute(name, options.merge(no_getter: true))
         define_method(name) do
           custom_parameters(name)

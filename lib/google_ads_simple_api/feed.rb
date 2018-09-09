@@ -2,11 +2,10 @@ module GoogleAdsSimpleApi
   class Feed < Base
     service :feed_service
 
-    attributes :id, :name, :origin, :system_feed_generation_datas
-    attribute :status, field: :feed_status
+    attributes :name, :origin, :system_feed_generation_data
     attribute :feed_attributes, field: :attributes  # TODO. should just be attributes
+    status_attribute :status, field: :feed_status, states: [:enabled, :removed]
 
-    has_status :enabled, :removed
     has_many(items: GoogleAdsSimpleApi::FeedItem)
 
     def schema
@@ -34,7 +33,7 @@ module GoogleAdsSimpleApi
 
     def enabled_items(reload: false)
       @enabled_items = nil if reload
-      @enabled_items ||= GoogleAdsSimpleApi::FeedItem.all(id_field_sym => id, status: 'ENABLED')
+      @enabled_items ||= GoogleAdsSimpleApi::FeedItem.all(id_key => id, status: 'ENABLED')
     end
 
   end

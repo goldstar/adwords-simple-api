@@ -3,23 +3,28 @@ module GoogleAdsSimpleApi
 
     module ClassMethods
 
-      def has_status(*status_labels)
-        status_labels.each do |status|
-          attributes(:status)
-          has_status = "#{status}?"
-          change_status = status.to_s.gsub(/d$/,"!")
-          status = status.to_s.upcase
+      def status_attribute(name, options)
+        attribute(name, options.merge(no_getter: true))
 
-          define_method(has_status) do
-            attributes[:status] == status
+        define_method(name) do
+          get_attribute(name).downcase.to_sym
+        end
+
+        options[:states].each do |state|
+          has_state = "#{state}?"
+          change_state = state.to_s.gsub(/d$/,"!")
+          state_string = state.to_s.upcase
+
+          define_method(has_state) do
+            get_attribute(name).downcase.to_sym == state
           end
 
-          define_method(change_status) do
-            set(status: status)
+          define_method(change_state) do
+            set(name => state_string)
           end
+
         end
       end
-
     end
 
     def self.included(base)

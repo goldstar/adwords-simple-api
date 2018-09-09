@@ -22,10 +22,10 @@ module GoogleAdsSimpleApi
 
     service :feed_item_service
 
-    attributes :feed_id, :status, :start_time, :end_time, :attribute_values,
+    attributes :feed_id, :start_time, :end_time, :attribute_values,
       :url_custom_parameters
 
-    has_status :enabled, :removed
+    status_attribute :status, states: [:enabled, :removed]
     belongs_to(:feed)
 
     def to_hash

@@ -17,8 +17,8 @@ module GoogleAdsSimpleApi
         end unless options[:no_getter]
 
         attribute_definitions[name] = {
-          field_name: GoogleAdsSimpleApi.camelcase(options[:field_name] || name),
-          field_key: name
+          field_name: GoogleAdsSimpleApi.camelcase(options[:field] || name),
+          field_key: options[:key] || name
         }
       end
 
