@@ -1,12 +1,12 @@
 module GoogleAdsSimpleApi
   class FeedItemTarget < Base
     service :feed_item_target_service
-    attributes :id, :feed_id, :feed_item_id, :status, :target_type,
+    attributes :feed_id, :feed_item_id, :target_type,
       :campaign_id, :campaign_name, # target_type is "CAMPAIGN"
       :ad_group_id, :parent_campaign_name#, # target_type is "AD_GROUP"
       # :criterion, :is_negative # target_type is "CRITERION"
 
-    has_status :active, :removed
+    status_attribute :status, states: [:active, :removed]
 
     # def add
     #   operation = {

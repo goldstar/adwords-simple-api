@@ -1,10 +1,9 @@
 module GoogleAdsSimpleApi
   class Label < Base
     service :label_service
-    attributes :id, :name, :status
-    attribute_field_names id: :label_id, name: :label_name, status: :label_status
 
-    has_status :enabled, :removed
+    attribute :name, field: :label_name
+    status_attribute :status, states: [:enabled, :removed], field: :label_status
 
     def campaigns
       @campaigns ||= Campaign.get({ field: 'Labels', operator: 'CONTAINS_ANY',  values: [id] })

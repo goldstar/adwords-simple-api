@@ -5,12 +5,10 @@ module GoogleAdsSimpleApi
 
     module ClassMethods
 
-      def has_custom_parameters(*attribute_names)
-        attribute_names.flatten.each do |name|
-          add_field(name)
-          define_method(name) do
-            custom_parameters(name)
-          end
+      def custom_parameters_attribute(name, options = {})
+        attribute(name, options.merge(no_getter: true))
+        define_method(name) do
+          custom_parameters(name)
         end
       end
 

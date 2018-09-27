@@ -22,7 +22,7 @@ module GoogleAdsSimpleApi
     end
 
     def load_has_many(name, associates = false)
-      associates ||= self.class.associations[name].all(id_field_sym => id)
+      associates ||= self.class.associations[name].all(self.class.id_key => id)
       associates.each do |assoc|
         assoc.eager_load_belongs_to(self) if assoc.respond_to?(:eager_load_belongs_to)
       end
