@@ -71,8 +71,8 @@ module GoogleAdsSimpleApi
       end
 
       def find(id, options = {})
-        id_key = field_key(:id)
-        options[id_key] = id
+        # id_key = field_key(:id)  # Always use id
+        options[:id] = id
         find_by(options)
       end
 

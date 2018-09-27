@@ -54,15 +54,16 @@ module GoogleAdsSimpleApi
     end
 
     def id
-      attributes[:id]
+      get_attribute(:id)
     end
 
     def attributes
       @attributes ||= {}
     end
 
-    def get_attribute(name)
-      attributes[name]
+    def get_attribute(attribute_name)
+      key = field_key(attribute_name)
+      attributes[key]
     end
 
     def field_name(attribute)

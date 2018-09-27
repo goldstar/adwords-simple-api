@@ -22,6 +22,7 @@ module GoogleAdsSimpleApi
 
     service :feed_item_service
 
+    attribute :id, field: :feed_item_id, key: :feed_item_id
     attributes :feed_id, :start_time, :end_time, :attribute_values,
       :url_custom_parameters
 
