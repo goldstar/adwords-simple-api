@@ -28,6 +28,7 @@ module GoogleAdsSimpleApi
 
     status_attribute :status, states: [:enabled, :removed]
     belongs_to(:feed)
+    has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
 
     def to_hash
       attribute_values.map{ |attribute_value|

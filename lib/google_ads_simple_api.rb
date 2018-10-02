@@ -38,8 +38,8 @@ end
 
 require 'adwords_api'
 require 'google_ads_simple_api/base'
-require 'google_ads_simple_api/feed_item'
 require 'google_ads_simple_api/feed_item_target'
+require 'google_ads_simple_api/feed_item'
 require 'google_ads_simple_api/feed'
 require 'google_ads_simple_api/feed_synchronizer'
 require 'google_ads_simple_api/label'

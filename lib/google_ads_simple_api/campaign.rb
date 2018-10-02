@@ -4,6 +4,8 @@ module GoogleAdsSimpleApi
   class Campaign < Base
     include HasLabels
     has_many(ad_groups: GoogleAdsSimpleApi::AdGroup)
+    has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
+
     belongs_to(:campaign_group)
 
     attributes :name, :serving_status, :start_date,

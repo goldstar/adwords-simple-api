@@ -13,6 +13,8 @@ module GoogleAdsSimpleApi
     status_attribute :status, states: [:enabled, :paused, :removed]
 
     has_many(expanded_text_ads: GoogleAdsSimpleApi::ExpandedTextAd)
+    has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
+    
     belongs_to(:campaign)
 
   end

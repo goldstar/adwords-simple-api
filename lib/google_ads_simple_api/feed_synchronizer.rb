@@ -41,7 +41,7 @@ module GoogleAdsSimpleApi
     end
 
     def string_key_for_item(item)
-      string_key_for_values(item.values)
+      string_key_for_values(item.to_hash)
     end
 
     def operations
@@ -49,11 +49,11 @@ module GoogleAdsSimpleApi
     end
 
     def set_operations
-      #TODO: Don't update if already current
-      (items_by_key.keys & new_values_by_key.keys).map{ |key|
+      (items_by_key.keys & new_values_by_key.keys).select{|key|
+         items_by_key[key].to_hash != new_values_by_key[key]
+      }.map{ |key|
         item = items_by_key[key]
-        new_values = new_values_by_key[key]
-        attribute_values = item.attribute_values_for(new_values)
+        attribute_values = item.attribute_values_for(new_values_by_key[key])
         item.set_operation(attribute_values: attribute_values)
       }
     end

@@ -8,28 +8,16 @@ module GoogleAdsSimpleApi
 
     status_attribute :status, states: [:active, :removed]
 
-    # def add
-    #   operation = {
-    #     :operator => 'ADD',
-    #     :operand => ad_group_ad.merge(changes)
-    #   }
-    # end
+    def self.create_target_for(ad_group_or_campaign, feed_item)
+      id_key = ad_group_or_campaign.class.id_key
+      operation = add_operation(
+        :xsi_type       => "FeedItem#{ad_group_or_campaign.class.api_object_name}Target",
+        :feed_id        => feed_item.feed_id,
+        :feed_item_id   => feed_item.id,
+        id_key          => ad_group_or_campaign.id
+      )
+      service.mutate([operation])
+    end
 
-    # Optional: Restrict the first feed item to only serve with ads for the
-    # specified ad group ID.
-    # if !ad_group_id.nil? && ad_group_id != 0
-    #   feed_item_target = {
-    #     :xsi_type => 'FeedItemAdGroupTarget',
-    #     :feed_id => sitelinks_data[:feed_id],
-    #     :feed_item_id => sitelinks_data[:feed_item_ids].first,
-    #     :ad_group_id => ad_group_id
-    #   }
-    #
-    #   operation = {
-    #     :operator => 'ADD',
-    #     :operand => feed_item_target
-    #   }
-    #
-    #   response = feed_item_target_srv.mutate([operation])
   end
 end

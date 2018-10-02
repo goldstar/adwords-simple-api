@@ -7,6 +7,7 @@ module GoogleAdsSimpleApi
     status_attribute :status, field: :feed_status, states: [:enabled, :removed]
 
     has_many(items: GoogleAdsSimpleApi::FeedItem)
+    has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
 
     def schema
       attributes[:attributes] || []
@@ -23,8 +24,8 @@ module GoogleAdsSimpleApi
     end
 
     def sync_item_values(new_values, options = {})
-      Synchronizer.new(self, new_values, options).run
-      items
+      FeedSynchronizer.new(self, new_values, options).run
+      enabled_items(reload: true)
     end
 
     def key_attributes
@@ -32,8 +33,7 @@ module GoogleAdsSimpleApi
     end
 
     def enabled_items(reload: false)
-      @enabled_items = nil if reload
-      @enabled_items ||= GoogleAdsSimpleApi::FeedItem.all(id_key => id, status: 'ENABLED')
+      self.items(reload: reload).select{|item| item.enabled? }
     end
 
   end
