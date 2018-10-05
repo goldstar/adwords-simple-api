@@ -5,6 +5,7 @@ module GoogleAdsSimpleApi
       def service(srvc = nil)
         if srvc
           @service_name = GoogleAdsSimpleApi.camelcase(srvc).to_sym
+          @service = nil
         else
           @service_name ||= "#{self.api_object_name}Service".to_sym
           @service ||= adwords.service(@service_name, GoogleAdsSimpleApi::API_VERSION)
