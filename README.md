@@ -67,6 +67,16 @@ ad_group.set(name: 'A New Name', ...) # Mutates the ad_group
 
 ```
 
+### Budgets
+
+```ruby
+  budget = GoogleAdsSimpleApi::Budget.create!(
+    is_explicitly_shared: false,
+    amount: {micro_amount: 5_000_000},
+    delivery_method: 'STANDARD'
+  )
+```
+
 ### Campaigns
 
 ```ruby

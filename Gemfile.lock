@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     google-ads-simple-api (0.1.0)
-      google-adwords-api (~> 1.2)
+      google-adwords-api (~> 1.3)
       json
 
 GEM
@@ -24,9 +24,9 @@ GEM
     diff-lcs (1.3)
     factory_bot (4.10.0)
       activesupport (>= 3.0.0)
-    faraday (0.14.0)
+    faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
-    google-ads-common (1.0.1)
+    google-ads-common (1.0.2)
       google-ads-savon (~> 1.0, >= 1.0.2)
       httpclient (~> 2.7)
       httpi (~> 2.3)
@@ -39,7 +39,7 @@ GEM
       nokogiri (~> 1.6)
       nori (~> 2.6)
       wasabi (~> 3.4)
-    google-adwords-api (1.2.0)
+    google-adwords-api (1.3.0)
       google-ads-common (~> 1.0.0)
       nori (~> 2.6)
     gyoku (1.3.1)
@@ -63,8 +63,8 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    public_suffix (3.0.2)
-    rack (2.0.4)
+    public_suffix (3.0.3)
+    rack (2.0.5)
     rake (10.4.2)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)

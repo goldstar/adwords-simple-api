@@ -7,13 +7,21 @@ module GoogleAdsSimpleApi
     has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
 
     belongs_to(:campaign_group)
+    belongs_to(:budget)
 
     attributes :name, :serving_status, :start_date,
      :end_date, :ad_serving_optimization_status, :settings, :advertising_channel_type,
-     :campaign_trial_type, :base_campaign_id
+     :campaign_trial_type, :base_campaign_id, :budget_id
+
+    attribute :budget_id, no_getter: true
+
     status_attribute :status, states: [:paused, :enabled, :removed]
 
     custom_parameters_attribute :url_custom_parameters
+
+    def budget_id
+      @attributes[:budget][:budget_id]
+    end
 
     def final_urls
       expanded_text_ads.flat_map{|ad| ad.final_urls }.uniq

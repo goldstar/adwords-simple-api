@@ -5,5 +5,6 @@ FactoryBot.define do
       "Camapign n"
     end
     status 'ENABLED'
+    budget({budget_id: 1})
   end
 end

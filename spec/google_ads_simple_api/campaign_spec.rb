@@ -5,6 +5,7 @@ module GoogleAdsSimpleApi
     it_behaves_like "it has base finders"
     it_behaves_like "it has base mutators"
     it_behaves_like "it belongs to", CampaignGroup, :campaign_group
+    it_behaves_like "it belongs to", Budget, :budget, 'BudgetId'
     it_behaves_like "it has status", [:enabled, :paused, :removed]
     it_behaves_like "it has many", AdGroup, :ad_groups, :ad_group
     # it_behaves_like "it has many", :expanded_text_ads
