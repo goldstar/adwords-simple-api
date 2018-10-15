@@ -5,7 +5,7 @@ module GoogleAdsSimpleApi
     include HasLabels
     has_many(ad_groups: GoogleAdsSimpleApi::AdGroup)
     has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
-
+    has_many(campaign_criteria: GoogleAdsSimpleApi::CampaignCriterion)
     belongs_to(:campaign_group)
     belongs_to(:budget)
 

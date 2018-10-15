@@ -38,6 +38,7 @@ end
 
 require 'adwords_api'
 require 'google_ads_simple_api/base'
+require 'google_ads_simple_api/campaign_criterion'
 require 'google_ads_simple_api/budget'
 require 'google_ads_simple_api/feed_item_target'
 require 'google_ads_simple_api/feed_item'

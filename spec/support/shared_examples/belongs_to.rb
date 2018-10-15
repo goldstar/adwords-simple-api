@@ -1,8 +1,10 @@
 module GoogleAdsSimpleApi
-  RSpec.shared_examples "it belongs to" do |klass, singular, field|
+  RSpec.shared_examples "it belongs to" do |klass, singular, field, value|
     describe "##{singular}" do
       let(:attributes){ attributes_for(singular) }
-      let(:described_class_instance) { described_class.new(described_class_attributes.merge(foreign_key => attributes[:id])) }
+      let(:described_class_instance) {
+        described_class.new(described_class_attributes.merge(foreign_key => value || attributes[:id]))
+      }
       let(:foreign_key){ "#{singular}_id".to_sym }
       let(:owner_instance) { klass.new(attributes) }
       before do
