@@ -6,8 +6,8 @@ module GoogleAdsSimpleApi
     attribute :feed_attributes, field: :attributes  # TODO. should just be attributes
     status_attribute :status, field: :feed_status, states: [:enabled, :removed]
 
-    has_many(items: GoogleAdsSimpleApi::FeedItem)
-    has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
+    has_many(items: 'FeedItem')
+    has_many(feed_item_targets: 'FeedItemTarget')
 
     def schema
       attributes[:attributes] || []

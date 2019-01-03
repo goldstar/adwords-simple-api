@@ -1,5 +1,3 @@
-require 'google_ads_simple_api/concerns/has_labels'
-
 module GoogleAdsSimpleApi
   class AdGroup < Base
     include HasLabels
@@ -12,10 +10,10 @@ module GoogleAdsSimpleApi
     # default_predicates [{field; 'Status', operator: 'IN', values: ['ENABLED','PAUSED']}]
     status_attribute :status, states: [:enabled, :paused, :removed]
 
-    has_many(expanded_text_ads: GoogleAdsSimpleApi::ExpandedTextAd)
-    has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
-    
-    belongs_to(:campaign)
+    has_many(expanded_text_ads: 'ExpandedTextAd')
+    has_many(feed_item_targets: 'FeedItemTarget')
+    has_many(ad_group_criteria: 'AdGroupCriterion')
 
+    belongs_to(:campaign)
   end
 end

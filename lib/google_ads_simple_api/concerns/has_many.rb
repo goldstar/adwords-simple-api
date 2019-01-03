@@ -5,6 +5,11 @@ module GoogleAdsSimpleApi
 
       def has_many(has_many_associations)
         @associations ||= {}
+        has_many_associations = has_many_associations.map{|k,v|
+          klass_name = 'GoogleAdsSimpleApi::'+v
+          [k,klass_name]
+        }.to_h
+
         @associations.merge!(has_many_associations)
         has_many_associations.keys.each do |name|
           define_method(name) do |options = {}|
@@ -22,7 +27,8 @@ module GoogleAdsSimpleApi
     end
 
     def load_has_many(name, associates = false)
-      associates ||= self.class.associations[name].all(self.class.id_key => id)
+      associated_class = Kernel.const_get(self.class.associations[name])
+      associates ||= associated_class.all(self.class.id_key => id)
       associates.each do |assoc|
         assoc.eager_load_belongs_to(self) if assoc.respond_to?(:eager_load_belongs_to)
       end

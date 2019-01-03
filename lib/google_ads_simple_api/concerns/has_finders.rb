@@ -55,11 +55,13 @@ module GoogleAdsSimpleApi
       end
 
       def eager_load(name, includes, objects)
-        klass = associations[name] or return
+        klass_name = associations[name] or return
+        associated_class = Kernel.const_get(klass_name)
+
         ids = objects.map(&:id)
         associates = Hash.new { |h, k| h[k] = [] }
         ids.each_slice(SLICE_SIZE) do |slice|
-          klass.all(id_key => slice, includes: includes).each do |associate|
+          associated_class.all(id_key => slice, includes: includes).each do |associate|
             parent_id = associate.send(id_key)
             associates[parent_id].concat([associate])
           end

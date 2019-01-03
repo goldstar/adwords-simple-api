@@ -6,7 +6,7 @@ module GoogleAdsSimpleApi
     attributes :amount, :delivery_method
     status_attribute :status, states: [:enabled, :removed], field: :budget_status
 
-    # has_many(campaigns: GoogleAdsSimpleApi::Campaign)
+    # has_many(campaigns: 'Campaign')
 
     def id
       attributes[:id]

@@ -1,11 +1,9 @@
-require 'google_ads_simple_api/concerns/has_labels'
-
 module GoogleAdsSimpleApi
   class Campaign < Base
     include HasLabels
-    has_many(ad_groups: GoogleAdsSimpleApi::AdGroup)
-    has_many(feed_item_targets: GoogleAdsSimpleApi::FeedItemTarget)
-    has_many(campaign_criteria: GoogleAdsSimpleApi::CampaignCriterion)
+    has_many(ad_groups: 'AdGroup')
+    has_many(feed_item_targets: 'FeedItemTarget')
+    has_many(campaign_criteria: 'CampaignCriterion')
     belongs_to(:campaign_group)
     belongs_to(:budget)
 
