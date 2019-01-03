@@ -1,5 +1,5 @@
 module GoogleAdsSimpleApi
-  API_VERSION = :v201802
+  API_VERSION = :v201809
   PAGE_SIZE = 500
   SLICE_SIZE = 500
 
