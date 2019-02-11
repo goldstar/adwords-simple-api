@@ -3,18 +3,18 @@ module GoogleAdsSimpleApi
 
     module ClassMethods
 
-      def create!(hash)
-        new_values = add(hash)
-        if new_values.first
-          self.new(new_values.first)
-        else
-          raise 'No objects were created'
-        end
+      def create!(*hashes)
+        new_values = add(hashes.flatten)
+        new_objects = new_values.map{|h| self.new(h) }
+        return new_objects.first if (hashes.count == 1 && hashes.first.kind_of?(Hash))
+        new_objects
       end
 
-      def add(hash)
-        operation = {:operator => 'ADD', :operand => hash}
-        response = service.mutate([operation])
+      def add(*hashes)
+        operations = hashes.flatten.map{ |hash|
+          {:operator => 'ADD', :operand => hash}
+        }
+        response = service.mutate(operations)
         if response && response[:value]
           response[:value]
         else
