@@ -9,7 +9,7 @@ module GoogleAdsSimpleApi
     # has_many(campaigns: 'Campaign')
 
     def id
-      attributes[:id]
+      attributes[:budget_id]
     end
   end
 end
