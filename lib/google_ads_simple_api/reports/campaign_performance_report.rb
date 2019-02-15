@@ -7,7 +7,8 @@ module GoogleAdsSimpleApi
           :fields => [
             'CampaignId','CampaignName','CampaignStatus','CampaignGroupId',
             'TrackingUrlTemplate', 'UrlCustomParameters','StartDate',
-            'Impressions', 'Clicks', 'Conversions', 'Cost', 'Labels'],
+            'Impressions', 'Clicks', 'Conversions', 'ConversionValue',
+            'AveragePosition', 'Cost', 'Labels'],
           :predicates => [
             {
               :field => 'CampaignStatus',
@@ -24,7 +25,8 @@ module GoogleAdsSimpleApi
 
     json_columns(:labels, :custom_parameter)
     integer_columns(:impressions, :clicks, :conversions, :campaign_id, :campaign_group_id)
-    currency_columns(:cost)
+    float_columns(:average_position)
+    currency_columns(:cost, :conversion_value)
     date_columns(:start_date)
     end
   end
