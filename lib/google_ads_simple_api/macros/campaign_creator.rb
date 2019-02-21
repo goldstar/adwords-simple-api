@@ -1,16 +1,21 @@
 module GoogleAdsSimpleApi
   module Macros
     class CampaignCreator
-      def self.defaults(attributes = nil)
-        @defaults = attributes if attributes
-        @defaults || {}
+      def self.default_attributes(attributes = nil)
+        @default_attributes = attributes if attributes
+        @default_attributes || {}
+      end
+
+      def self.create!(attributes)
+        self.new(attributes).create!
       end
 
       attr_reader :attributes
 
       def initialize(attributes)
-        @attributes = self.class.default.merget(attributes)
+        @attributes = self.class.default_attributes.merge(attributes)
         # name
+        # status
         # language_ids = []
         # campaign_group_id = int
         # location_ids = []
@@ -18,7 +23,11 @@ module GoogleAdsSimpleApi
         # budget = int
         # delivery_method = 'STANDARD'
         # bidding_strategy = 'MANUAL_CPC'
+        # bidding_scheme = {}
         # url_custom_parameters = {}
+        # target_google_search = false
+        # target_search_network = false
+        # target_content_network = false
       end
 
       def create!
@@ -32,7 +41,7 @@ module GoogleAdsSimpleApi
         @budget ||= GoogleAdsSimpleApi::Budget.create!(
           is_explicitly_shared: false,
           amount: {micro_amount: (attributes[:budget].to_f * 1_000_000).to_i},
-          delivery_method: attributes[:delivery_method]
+          delivery_method: attributes[:delivery_method] || 'STANDARD'
         )
       end
 
@@ -41,8 +50,8 @@ module GoogleAdsSimpleApi
         @campaign ||= begin
           campaign_attributes = {
             name: attributes[:name],
-            status: 'PAUSED',
-            bidding_strategy_configuration: { bidding_strategy_type: 'MANUAL_CPC' },
+            status: attributes[:status] || 'PAUSED',
+            bidding_strategy_configuration: { bidding_strategy_type: attributes[:bidding_strategy], bidding_scheme: attributes[:bidding_scheme] },
             advertising_channel_type: 'SEARCH',
             budget: { budget_id: @budget.id },
             # :start_date => DateTime.parse((Date.today + 1).to_s).strftime('%Y%m%d'),
@@ -74,7 +83,7 @@ module GoogleAdsSimpleApi
             campaign_attributes[:url_custom_parameters] = url_custom_parameters
           end
           GoogleAdsSimpleApi::Campaign.create!(campaign_attributes)
-        )
+        end
       end
 
       def url_custom_parameters

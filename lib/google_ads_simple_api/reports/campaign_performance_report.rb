@@ -25,8 +25,8 @@ module GoogleAdsSimpleApi
 
     json_columns(:labels, :custom_parameter)
     integer_columns(:impressions, :clicks, :conversions, :campaign_id, :campaign_group_id)
-    float_columns(:average_position)
-    currency_columns(:cost, :conversion_value)
+    float_columns(:avg_position)
+    currency_columns(:cost, :total_conv_value)
     date_columns(:start_date)
     end
   end
