@@ -122,6 +122,8 @@ module GoogleAdsSimpleApi
       end
 
       def proximity_criteria
+        return nil unless attributes[:proximities]
+
         attributes[:proximities].map{ |p|
           {
             xsi_type: 'Proximity',
