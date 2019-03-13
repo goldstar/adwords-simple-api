@@ -2,16 +2,11 @@ module GoogleAdsSimpleApi
   class FeedSynchronizer
     attr_reader :feed, :new_values, :remove_items_flag, :key_attributes
 
-    class NoAttributeKeysError < ArgumentError
-    end
-
     def initialize(feed, new_values, remove_items: false)
       @feed = feed
       @key_attributes = feed.key_attributes
       @new_values = new_values
       @remove_items_flag = !!remove_items
-
-      raise NoAttributeKeysError.new("Feed must have at least 1 key attribute for Synchronizer") if @key_attributes.empty?
     end
 
     def run
@@ -34,6 +29,7 @@ module GoogleAdsSimpleApi
     end
 
     def string_key_for_values(values)
+      return values[:feed_item_id] || values.to_s if @key_attributes.empty?
       key_attributes.map{ |k|
         name = k[:name]
         values[name] || values[name.to_sym]
@@ -41,7 +37,7 @@ module GoogleAdsSimpleApi
     end
 
     def string_key_for_item(item)
-      string_key_for_values(item.to_hash)
+      string_key_for_values(item.to_hash.merge(feed_item_id: item.id))
     end
 
     def operations
