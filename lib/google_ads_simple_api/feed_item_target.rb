@@ -8,6 +8,9 @@ module GoogleAdsSimpleApi
 
     status_attribute :status, states: [:active, :removed]
 
+    belongs_to(:feed)
+    belongs_to(:feed_item)
+    
     def self.create_target_for(ad_group_or_campaign, feed_item)
       id_key = ad_group_or_campaign.class.id_key
       operation = add_operation(
