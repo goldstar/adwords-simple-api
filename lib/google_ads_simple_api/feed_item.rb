@@ -60,11 +60,15 @@ module GoogleAdsSimpleApi
     end
 
     def set_operation(hash)
-      self.class.set_operation(self.id, hash.merge(feed_id: feed.id))
+      self.class.set_operation(id, hash.merge(feed_id: feed_id))
     end
 
     def remove_operation
-      self.class.remove_operation(self.id, feed_id: feed.id)
+      self.class.remove_operation(id, feed_id: feed_id)
+    end
+
+    def remove!
+      self.class.service.mutate([remove_operation])
     end
 
   end

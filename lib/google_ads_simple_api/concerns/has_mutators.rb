@@ -42,8 +42,8 @@ module GoogleAdsSimpleApi
       end
 
       def remove_operation(id, hash = {})
-        id_field = attribute_name(:id)
-        { :operator => 'REMOVE', :operand => hash.merge({id_field => id}) }
+        id_key = field_key(:id)
+        { :operator => 'REMOVE', :operand => hash.merge(id_key => id) }
       end
 
     end
