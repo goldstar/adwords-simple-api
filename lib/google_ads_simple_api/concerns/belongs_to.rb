@@ -28,7 +28,8 @@ module GoogleAdsSimpleApi
     # is made by here.  This implementation isn't ideal because it assumes the
     # the name of the association matches the class.
     def eager_load_belongs_to(obj)
-      name = self.class.associations.select{|k,v| v == obj.class.name}.first.first
+      association = self.class.associations.select{|k,v| v == obj.class.name}.first or return
+      name = association.first
       return unless name
       @associations[name] = obj
     end

@@ -1,6 +1,7 @@
 module GoogleAdsSimpleApi
   class Campaign < Base
     include HasLabels
+    include HasExtensionSettings
     has_many(ad_groups: 'AdGroup')
     has_many(feed_item_targets: 'FeedItemTarget')
     has_many(campaign_criteria: 'CampaignCriterion')

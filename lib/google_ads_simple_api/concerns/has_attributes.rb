@@ -22,6 +22,10 @@ module GoogleAdsSimpleApi
         }
       end
 
+      def no_id
+        attribute_definitions.delete(:id)
+      end
+
       def attribute_definitions
         @attribute_definitions ||= begin
           # id_name = "#{self.name.split(/::/).last}Id"
