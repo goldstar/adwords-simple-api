@@ -10,8 +10,8 @@ module GoogleAdsSimpleApi
     end
 
     def run
-      FeedItem.service.mutate(operations) if operations.any?
-      feed.items(reload: true)
+      return [] if operations.empty?
+      FeedItem.service.mutate(operations)
     end
 
     private
@@ -21,7 +21,7 @@ module GoogleAdsSimpleApi
     end
 
     def new_values_by_key
-      @new_values_by_key ||= new_values.map{ |v| [string_key_for_values(v),v] }.to_h
+      @new_values_by_key ||= new_values.map{ |v| [string_key_for_values(v),v.except(:feed_item_id)] }.to_h
     end
 
     def items_by_key
