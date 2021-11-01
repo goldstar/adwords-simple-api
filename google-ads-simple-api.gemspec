@@ -37,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "factory_bot", "~> 4.0"
   spec.add_development_dependency "pry"
+  spec.add_development_dependency "rspec_junit_formatter"
 end
